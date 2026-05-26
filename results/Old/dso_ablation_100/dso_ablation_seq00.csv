@@ -1,0 +1,7 @@
+config,ate_rmse_m,rpe_trans_percent,rpe_rot_deg_per_m,kitti_mean_trans_percent,tracking_failures,fallbacks_used,motion_gate_rejections,low_projection_rejections,keyframes,wall_time_s,avg_runtime_ms
+full_simplified_dso,40.04040014538384,,,,1,1,0,0,42,74.34655220000059,734.2902939393881
+lk_pnp_only,77.2571875774609,,,,0,0,0,0,42,63.0111121000009,616.2523969696206
+photometric_with_motion_gate,75.7913177966441,,,,17,17,10,0,36,54.25153230000069,534.4317888889099
+grid_uniform_selection,11.683481091607995,,,,1,1,0,0,42,84.61193080000157,836.5679444444075
+outlier_culling_on,9.566091099223879,,,,14,14,10,0,37,60.37317350000012,593.6273878787596
+outlier_culling_off,75.7913177966441,,,,17,17,10,0,36,54.45689350000248,535.7798777777226

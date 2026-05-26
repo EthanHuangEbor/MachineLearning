@@ -1,0 +1,12 @@
+config,ate_rmse_m,rpe_trans_percent,rpe_rot_deg_per_m,kitti_mean_trans_percent,tracking_failures,fallbacks_used,motion_gate_rejections,low_projection_rejections,residual_p95_gate_rejections,cost_jump_rejections,lk_consistency_rejections,reinitializations,loop_candidates,loop_verified,loop_corrections_applied,ba_runs,ba_accepted,ba_rejected,active_points_culled,keyframes,wall_time_s,avg_runtime_ms
+strict_full,1.017478302125277,,,,2,2,0,0,0,0,0,0,0,0,0,2,2,0,23,7,10.065016000007745,514.0784789415959
+no_left_right_check,1.05375222120611,,,,0,0,0,0,0,0,0,0,0,0,0,3,3,0,59,7,18.706722799979616,974.000768420458
+no_quality_gates,1.017478302125277,,,,2,2,0,0,0,0,0,0,0,0,0,2,2,0,23,7,10.143586399964988,518.9690842035864
+no_joint_ba,1.1451200020970704,,,,2,2,0,0,0,0,0,0,0,0,0,2,2,0,6,7,3.638274399971124,175.68611578807528
+no_affine_brightness,0.9971425340171328,,,,1,1,0,0,0,0,0,0,0,0,0,3,3,0,46,8,17.802596499968786,919.9845684189839
+loop_candidates_only,1.017478302125277,,,,2,2,0,0,0,0,0,0,0,0,0,2,2,0,23,7,31.49561820004601,1631.2958421124342
+lk_pnp_only,1.1125537133519272,,,,0,0,0,0,0,0,0,0,0,0,0,3,3,0,60,7,31.568241000000853,1618.7733842066098
+photometric_with_motion_gate,1.1190924939615412,,,,5,5,0,0,0,0,0,0,0,0,0,2,1,1,52,9,24.91103129996918,1269.513415788472
+grid_uniform_selection,1.0520698259378767,,,,1,1,0,0,0,0,0,0,0,0,0,3,3,0,51,7,20.080151300004218,1038.1468684247106
+outlier_culling_on,0.9808472173883374,,,,5,5,0,0,3,0,0,0,0,0,0,1,0,1,0,8,4.305457399983425,206.0801052659946
+outlier_culling_off,1.1190924939615412,,,,5,5,0,0,0,0,0,0,0,0,0,2,1,1,52,9,29.159075399977155,1514.2403842060287

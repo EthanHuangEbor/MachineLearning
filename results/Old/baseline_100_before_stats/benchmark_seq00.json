@@ -1,0 +1,202 @@
+{
+  "sequence": "00",
+  "max_frames": 100,
+  "alignment": "origin",
+  "implementation_manifest": {
+    "paper_level_claim": false,
+    "interpretation": "This repository provides reproducible research baselines inspired by ORB-SLAM2 and DSO. It is not a complete paper-level reimplementation.",
+    "algorithms": {
+      "orb": {
+        "name": "ORB-SLAM2-inspired stereo SLAM",
+        "paper_reference": "Mur-Artal and Tardos, ORB-SLAM2, IEEE T-RO 2017",
+        "implementation_level": "research_baseline_not_full_paper_reproduction",
+        "completed_components": [
+          "stereo ORB feature extraction",
+          "stereo depth from left-right matches",
+          "frame-to-frame PnP RANSAC tracking",
+          "keyframe insertion",
+          "cross-keyframe map-point association",
+          "bounded local bundle adjustment",
+          "local map tracking against projected map points",
+          "BoW/PnP relocalization",
+          "online visual vocabulary for loop candidates",
+          "essential-matrix loop verification",
+          "Sim3 map-point loop fusion",
+          "pose graph optimization",
+          "bounded global bundle adjustment after loop closure"
+        ],
+        "missing_paper_components": [
+          "production ORB vocabulary trained offline at scale",
+          "full covisibility spanning-tree and essential-graph policy",
+          "full ORB-SLAM2 relocalization scoring and recovery policy",
+          "full Sim3 loop fusion with robust duplicate map-point replacement",
+          "unbounded global bundle adjustment comparable to the C++ reference system"
+        ]
+      },
+      "dso": {
+        "name": "DSO-inspired direct sparse stereo SLAM",
+        "paper_reference": "Engel et al., Direct Sparse Odometry, IEEE TPAMI 2018",
+        "implementation_level": "research_baseline_not_full_paper_reproduction",
+        "completed_components": [
+          "high-gradient active pixel selection",
+          "stereo SGBM depth initialization",
+          "coarse-to-fine photometric tracking",
+          "LK+PnP initialization for direct alignment",
+          "Huber-robust photometric residuals",
+          "affine brightness transfer in direct tracking",
+          "inverse-depth active window",
+          "lightweight marginalization pose prior",
+          "response/vignetting-style photometric pre-calibration",
+          "bounded photometric local refinement",
+          "essential-matrix loop verification",
+          "pose graph optimization"
+        ],
+        "missing_paper_components": [
+          "full inverse-depth state jointly optimized with all active poses",
+          "Schur complement marginalization priors matching DSO",
+          "dataset-calibrated exposure/response/vignetting files",
+          "DSO point activation and marginalization policy",
+          "full photometric bundle adjustment over poses, inverse depths, and affine brightness"
+        ]
+      }
+    }
+  },
+  "orb": {
+    "ate_rmse_m": 1.988707797266221,
+    "rpe_trans_percent": null,
+    "rpe_rot_deg_per_m": null,
+    "kitti_segments": {
+      "segment_lengths_m": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800
+      ],
+      "per_length": {
+        "100": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "200": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "300": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "400": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "500": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "600": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "700": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "800": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        }
+      },
+      "mean_trans_percent": null,
+      "mean_rot_deg_per_m": null,
+      "num_segments": 0
+    },
+    "runtime": {
+      "avg_ms": 3835.5678539999876,
+      "median_ms": 32.76464999999007,
+      "p95_ms": 15332.670915000263
+    },
+    "wall_time_s": 384.5756489999999,
+    "keyframes": 35
+  },
+  "dso": {
+    "ate_rmse_m": 33.4198226132204,
+    "rpe_trans_percent": null,
+    "rpe_rot_deg_per_m": null,
+    "kitti_segments": {
+      "segment_lengths_m": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800
+      ],
+      "per_length": {
+        "100": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "200": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "300": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "400": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "500": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "600": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "700": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "800": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        }
+      },
+      "mean_trans_percent": null,
+      "mean_rot_deg_per_m": null,
+      "num_segments": 0
+    },
+    "runtime": {
+      "avg_ms": 520.7671898989853,
+      "median_ms": 378.9631999998164,
+      "p95_ms": 1254.453099999818
+    },
+    "wall_time_s": 52.66490160000012,
+    "keyframes": 42
+  }
+}

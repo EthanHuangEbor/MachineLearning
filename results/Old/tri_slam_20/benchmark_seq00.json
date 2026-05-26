@@ -1,0 +1,377 @@
+{
+  "sequence": "00",
+  "max_frames": 20,
+  "alignment": "origin",
+  "dataset": {
+    "data_dir": "data/kitti_odometry",
+    "sequence": "00",
+    "expected_frames": 20
+  },
+  "parameters": {
+    "algorithms": [
+      "orb",
+      "dso",
+      "svo"
+    ],
+    "features": 800,
+    "dso_points": 800,
+    "svo_points": 1500,
+    "dso_mode": "full",
+    "dso_tracking_config": {
+      "max_translation_m": 5.0,
+      "max_rotation_deg": 15.0,
+      "min_valid_projected_points": 30,
+      "min_inlier_ratio": 0.15,
+      "residual_inlier_threshold": 25.0,
+      "enable_motion_gate": true,
+      "enable_outlier_culling": true,
+      "enable_grid_selection": true,
+      "enable_photometric_refinement": true,
+      "fallback_mode": "lk_pnp_then_constant_velocity"
+    }
+  },
+  "implementation_manifest": {
+    "paper_level_claim": false,
+    "interpretation": "This repository provides reproducible research baselines inspired by ORB-SLAM2, DSO, and SVO. It is not a complete paper-level reimplementation.",
+    "algorithms": {
+      "orb": {
+        "name": "ORB-SLAM2-inspired stereo SLAM",
+        "paper_reference": "Mur-Artal and Tardos, ORB-SLAM2, IEEE T-RO 2017",
+        "implementation_level": "research_baseline_not_full_paper_reproduction",
+        "completed_components": [
+          "stereo ORB feature extraction",
+          "stereo depth from left-right matches",
+          "frame-to-frame PnP RANSAC tracking",
+          "keyframe insertion",
+          "cross-keyframe map-point association",
+          "bounded local bundle adjustment",
+          "local map tracking against projected map points",
+          "BoW/PnP relocalization",
+          "online visual vocabulary for loop candidates",
+          "essential-matrix loop verification",
+          "Sim3 map-point loop fusion",
+          "pose graph optimization",
+          "bounded global bundle adjustment after loop closure"
+        ],
+        "missing_paper_components": [
+          "production ORB vocabulary trained offline at scale",
+          "full covisibility spanning-tree and essential-graph policy",
+          "full ORB-SLAM2 relocalization scoring and recovery policy",
+          "full Sim3 loop fusion with robust duplicate map-point replacement",
+          "unbounded global bundle adjustment comparable to the C++ reference system"
+        ]
+      },
+      "dso": {
+        "name": "DSO-inspired direct sparse stereo SLAM",
+        "paper_reference": "Engel et al., Direct Sparse Odometry, IEEE TPAMI 2018",
+        "implementation_level": "research_baseline_not_full_paper_reproduction",
+        "completed_components": [
+          "high-gradient active pixel selection",
+          "stereo SGBM depth initialization",
+          "coarse-to-fine photometric tracking",
+          "LK+PnP initialization for direct alignment",
+          "Huber-robust photometric residuals",
+          "affine brightness transfer in direct tracking",
+          "inverse-depth active window",
+          "lightweight marginalization pose prior",
+          "response/vignetting-style photometric pre-calibration",
+          "bounded photometric local refinement",
+          "essential-matrix loop verification",
+          "pose graph optimization"
+        ],
+        "missing_paper_components": [
+          "full inverse-depth state jointly optimized with all active poses",
+          "Schur complement marginalization priors matching DSO",
+          "dataset-calibrated exposure/response/vignetting files",
+          "DSO point activation and marginalization policy",
+          "full photometric bundle adjustment over poses, inverse depths, and affine brightness"
+        ]
+      },
+      "svo": {
+        "name": "SVO-style semi-direct stereo visual odometry/SLAM",
+        "paper_reference": "Forster et al., SVO: Fast Semi-Direct Monocular Visual Odometry, ICRA 2014",
+        "implementation_level": "research_baseline_not_full_paper_reproduction",
+        "completed_components": [
+          "stereo SGBM depth initialization",
+          "grid-uniform high-gradient sparse point selection",
+          "patch/optical-flow based semi-direct tracking",
+          "pyramidal LK patch tracking",
+          "PnP RANSAC pose estimation",
+          "motion gate and constant-velocity fallback",
+          "keyframe insertion",
+          "bounded sparse map maintenance",
+          "unified KITTI benchmark integration"
+        ],
+        "missing_paper_components": [
+          "full SVO probabilistic depth-filter update",
+          "direct image alignment of sparse patches before feature alignment",
+          "mature map point life-cycle and uncertainty propagation",
+          "loop closure and pose graph backend",
+          "production-grade initialization and recovery policies"
+        ]
+      }
+    }
+  },
+  "orb": {
+    "trajectory_path": "results\\tri_slam_20\\orb_slam_seq00.txt",
+    "ate_rmse_m": 0.9366953896706622,
+    "rpe_trans_percent": null,
+    "rpe_rot_deg_per_m": null,
+    "kitti_segments": {
+      "segment_lengths_m": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800
+      ],
+      "per_length": {
+        "100": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "200": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "300": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "400": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "500": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "600": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "700": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "800": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        }
+      },
+      "mean_trans_percent": null,
+      "mean_rot_deg_per_m": null,
+      "num_segments": 0
+    },
+    "runtime": {
+      "avg_ms": 6078.936299999987,
+      "median_ms": 91.7818999987503,
+      "p95_ms": 28712.371664999773
+    },
+    "wall_time_s": 121.9234292000001,
+    "keyframes": 7,
+    "robustness": {
+      "frames_processed": 20,
+      "keyframes": 7,
+      "tracking_failures": 0,
+      "relocalization_attempts": 0,
+      "relocalization_successes": 0,
+      "loop_candidates": 0,
+      "loop_closures": 0,
+      "local_map_refinements": 5,
+      "global_ba_runs": 0,
+      "map_points": 1239
+    }
+  },
+  "dso": {
+    "trajectory_path": "results\\tri_slam_20\\dso_slam_seq00.txt",
+    "ate_rmse_m": 1.6427475026036669,
+    "rpe_trans_percent": null,
+    "rpe_rot_deg_per_m": null,
+    "kitti_segments": {
+      "segment_lengths_m": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800
+      ],
+      "per_length": {
+        "100": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "200": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "300": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "400": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "500": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "600": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "700": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "800": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        }
+      },
+      "mean_trans_percent": null,
+      "mean_rot_deg_per_m": null,
+      "num_segments": 0
+    },
+    "runtime": {
+      "avg_ms": 610.3334210523539,
+      "median_ms": 386.47409999975935,
+      "p95_ms": 1216.7851899972436
+    },
+    "wall_time_s": 12.16343770000094,
+    "keyframes": 7,
+    "robustness": {
+      "frames_processed": 20,
+      "keyframes": 7,
+      "tracking_failures": 0,
+      "fallbacks_used": 0,
+      "motion_gate_rejections": 0,
+      "low_projection_rejections": 0,
+      "relocalization_attempts": 0,
+      "relocalization_successes": 0,
+      "loop_candidates": 0,
+      "loop_closures": 0,
+      "active_window_keyframes": 5,
+      "active_inverse_depth_points": 3000,
+      "mean_valid_projected_points": 623.1052631578947,
+      "median_valid_projected_points": 610.0,
+      "mean_inlier_ratio": 0.70494307642638,
+      "marginalizations": 2,
+      "photometric_ba_runs": 6,
+      "last_tracking_cost": 90562.98135195681,
+      "stereo_depth_filter": "positive_disparity_depth_range_only_no_left_right_consistency"
+    }
+  },
+  "svo": {
+    "trajectory_path": "results\\tri_slam_20\\svo_slam_seq00.txt",
+    "ate_rmse_m": 1.1066283985205205,
+    "rpe_trans_percent": null,
+    "rpe_rot_deg_per_m": null,
+    "kitti_segments": {
+      "segment_lengths_m": [
+        100,
+        200,
+        300,
+        400,
+        500,
+        600,
+        700,
+        800
+      ],
+      "per_length": {
+        "100": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "200": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "300": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "400": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "500": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "600": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "700": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        },
+        "800": {
+          "num_segments": 0,
+          "trans_percent": null,
+          "rot_deg_per_m": null
+        }
+      },
+      "mean_trans_percent": null,
+      "mean_rot_deg_per_m": null,
+      "num_segments": 0
+    },
+    "runtime": {
+      "avg_ms": 118.25129000008019,
+      "median_ms": 163.89135000099486,
+      "p95_ms": 189.46132000000944
+    },
+    "wall_time_s": 2.7557034000019485,
+    "keyframes": 12,
+    "robustness": {
+      "frames_processed": 20,
+      "keyframes": 12,
+      "tracking_failures": 0,
+      "fallbacks_used": 0,
+      "motion_gate_rejections": 0,
+      "low_projection_rejections": 0,
+      "relocalization_attempts": 0,
+      "relocalization_successes": 0,
+      "loop_candidates": 0,
+      "loop_closures": 0,
+      "active_sparse_points": 7024,
+      "mean_tracked_points": 904.0,
+      "mean_pnp_inliers": 710.3157894736842,
+      "mean_valid_projected_points": 904.0,
+      "median_valid_projected_points": 939.0,
+      "mean_inlier_ratio": 0.776729124339342,
+      "loop_closure_enabled": false
+    }
+  }
+}

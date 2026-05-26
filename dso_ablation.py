@@ -128,6 +128,7 @@ def main() -> None:
     summaries: dict[str, dict[str, object]] = {}
     csv_rows: list[dict[str, object]] = []
     for name, config in ablation_configs().items():
+        print(f"[ablation] running {name}", flush=True)
         start = time.perf_counter()
         slam = DSOSLAM(
             LimitedLoader(base_loader, args.max_frames),
@@ -146,6 +147,14 @@ def main() -> None:
         trajectory_array = np.stack(trajectory)
         method_summary = summarize_method(gt, trajectory_array, alignment=args.alignment)
         stats = slam.get_stats()
+        print(
+            "[ablation] finished "
+            f"{name}: ate={method_summary['ate_rmse_m']:.4f}, "
+            f"failures={stats['tracking_failures']}, "
+            f"fallbacks={stats['fallbacks_used']}, "
+            f"loops={stats['loop_closures']}",
+            flush=True,
+        )
         summaries[name] = {
             "trajectory_path": str(traj_path),
             "tracking_config": asdict(config),

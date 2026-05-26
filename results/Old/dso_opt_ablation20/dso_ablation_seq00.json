@@ -1,0 +1,1504 @@
+{
+  "sequence": "00",
+  "max_frames": 20,
+  "alignment": "origin",
+  "points": 300,
+  "configs": {
+    "strict_full": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_strict_full_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": true,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.017478302125277,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 514.0784789415959,
+        "median_ms": 158.4782999707386,
+        "p95_ms": 1706.1071199946937
+      },
+      "wall_time_s": 10.065016000007745,
+      "keyframes": 7,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 7,
+        "tracking_failures": 2,
+        "fallbacks_used": 2,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1477,
+        "active_points_culled": 23,
+        "mean_valid_projected_points": 253.8421052631579,
+        "median_valid_projected_points": 253.0,
+        "mean_inlier_ratio": 0.6902456028890802,
+        "marginalizations": 0,
+        "photometric_ba_runs": 2,
+        "ba_runs": 2,
+        "ba_accepted": 2,
+        "ba_rejected": 0,
+        "last_tracking_cost": 28408.4679433141,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "no_left_right_check": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_no_left_right_check_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": true,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": false,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.05375222120611,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 974.000768420458,
+        "median_ms": 107.11709997849539,
+        "p95_ms": 7104.857930034628
+      },
+      "wall_time_s": 18.706722799979616,
+      "keyframes": 7,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 7,
+        "tracking_failures": 0,
+        "fallbacks_used": 0,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1468,
+        "active_points_culled": 59,
+        "mean_valid_projected_points": 249.0,
+        "median_valid_projected_points": 245.0,
+        "mean_inlier_ratio": 0.6730709037960008,
+        "marginalizations": 2,
+        "photometric_ba_runs": 3,
+        "ba_runs": 3,
+        "ba_accepted": 3,
+        "ba_rejected": 0,
+        "last_tracking_cost": 37073.02070639346,
+        "stereo_depth_filter": "positive_disparity_depth_range"
+      }
+    },
+    "no_quality_gates": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_no_quality_gates_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 0,
+        "min_inlier_ratio": 0.0,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": true,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.0,
+        "enable_residual_p95_gate": false,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": false,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": false,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.017478302125277,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 518.9690842035864,
+        "median_ms": 124.03659999836236,
+        "p95_ms": 1747.4883099784975
+      },
+      "wall_time_s": 10.143586399964988,
+      "keyframes": 7,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 7,
+        "tracking_failures": 2,
+        "fallbacks_used": 2,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1477,
+        "active_points_culled": 23,
+        "mean_valid_projected_points": 253.8421052631579,
+        "median_valid_projected_points": 253.0,
+        "mean_inlier_ratio": 0.6902456028890802,
+        "marginalizations": 0,
+        "photometric_ba_runs": 2,
+        "ba_runs": 2,
+        "ba_accepted": 2,
+        "ba_rejected": 0,
+        "last_tracking_cost": 28408.4679433141,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "no_joint_ba": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_no_joint_ba_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": true,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": false,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.1451200020970704,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 175.68611578807528,
+        "median_ms": 125.63319999026135,
+        "p95_ms": 373.73894000775175
+      },
+      "wall_time_s": 3.638274399971124,
+      "keyframes": 7,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 7,
+        "tracking_failures": 2,
+        "fallbacks_used": 2,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1494,
+        "active_points_culled": 6,
+        "mean_valid_projected_points": 253.8421052631579,
+        "median_valid_projected_points": 253.0,
+        "mean_inlier_ratio": 0.6902456028890802,
+        "marginalizations": 0,
+        "photometric_ba_runs": 2,
+        "ba_runs": 2,
+        "ba_accepted": 2,
+        "ba_rejected": 0,
+        "last_tracking_cost": 28408.4679433141,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "no_affine_brightness": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_no_affine_brightness_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": true,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": false,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 0.9971425340171328,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 919.9845684189839,
+        "median_ms": 95.31449998030439,
+        "p95_ms": 6459.972040000136
+      },
+      "wall_time_s": 17.802596499968786,
+      "keyframes": 8,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 8,
+        "tracking_failures": 1,
+        "fallbacks_used": 1,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1479,
+        "active_points_culled": 46,
+        "mean_valid_projected_points": 250.78947368421052,
+        "median_valid_projected_points": 253.0,
+        "mean_inlier_ratio": 0.6902707750770907,
+        "marginalizations": 2,
+        "photometric_ba_runs": 3,
+        "ba_runs": 3,
+        "ba_accepted": 3,
+        "ba_rejected": 0,
+        "last_tracking_cost": 81446.0597487,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "loop_candidates_only": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_loop_candidates_only_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": true,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": false,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.017478302125277,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 1631.2958421124342,
+        "median_ms": 411.6073999903165,
+        "p95_ms": 5320.392780046645
+      },
+      "wall_time_s": 31.49561820004601,
+      "keyframes": 7,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 7,
+        "tracking_failures": 2,
+        "fallbacks_used": 2,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1477,
+        "active_points_culled": 23,
+        "mean_valid_projected_points": 253.8421052631579,
+        "median_valid_projected_points": 253.0,
+        "mean_inlier_ratio": 0.6902456028890802,
+        "marginalizations": 0,
+        "photometric_ba_runs": 2,
+        "ba_runs": 2,
+        "ba_accepted": 2,
+        "ba_rejected": 0,
+        "last_tracking_cost": 28408.4679433141,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "lk_pnp_only": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_lk_pnp_only_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": false,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": false,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.1125537133519272,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 1618.7733842066098,
+        "median_ms": 75.0345999840647,
+        "p95_ms": 11057.300179963922
+      },
+      "wall_time_s": 31.568241000000853,
+      "keyframes": 7,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 7,
+        "tracking_failures": 0,
+        "fallbacks_used": 0,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1471,
+        "active_points_culled": 60,
+        "mean_valid_projected_points": 254.0,
+        "median_valid_projected_points": 251.0,
+        "mean_inlier_ratio": 0.5977738243457743,
+        "marginalizations": 2,
+        "photometric_ba_runs": 3,
+        "ba_runs": 3,
+        "ba_accepted": 3,
+        "ba_rejected": 0,
+        "last_tracking_cost": null,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "photometric_with_motion_gate": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_photometric_with_motion_gate_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": false,
+        "enable_grid_selection": false,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.1190924939615412,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 1269.513415788472,
+        "median_ms": 521.8001999892294,
+        "p95_ms": 5102.995139971595
+      },
+      "wall_time_s": 24.91103129996918,
+      "keyframes": 9,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 9,
+        "tracking_failures": 5,
+        "fallbacks_used": 5,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 4,
+        "active_inverse_depth_points": 1135,
+        "active_points_culled": 52,
+        "mean_valid_projected_points": 280.2631578947368,
+        "median_valid_projected_points": 290.0,
+        "mean_inlier_ratio": 0.4828605843842702,
+        "marginalizations": 0,
+        "photometric_ba_runs": 1,
+        "ba_runs": 2,
+        "ba_accepted": 1,
+        "ba_rejected": 1,
+        "last_tracking_cost": 80084.47968273686,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "grid_uniform_selection": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_grid_uniform_selection_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": false,
+        "enable_grid_selection": true,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.0520698259378767,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 1038.1468684247106,
+        "median_ms": 136.68790005613118,
+        "p95_ms": 6649.783769989146
+      },
+      "wall_time_s": 20.080151300004218,
+      "keyframes": 7,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 7,
+        "tracking_failures": 1,
+        "fallbacks_used": 1,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 5,
+        "active_inverse_depth_points": 1462,
+        "active_points_culled": 51,
+        "mean_valid_projected_points": 253.42105263157896,
+        "median_valid_projected_points": 250.0,
+        "mean_inlier_ratio": 0.7143709392348349,
+        "marginalizations": 1,
+        "photometric_ba_runs": 3,
+        "ba_runs": 3,
+        "ba_accepted": 3,
+        "ba_rejected": 0,
+        "last_tracking_cost": 32363.76083816067,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "outlier_culling_on": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_outlier_culling_on_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": true,
+        "enable_grid_selection": false,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 0.9808472173883374,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 206.0801052659946,
+        "median_ms": 165.92439997475594,
+        "p95_ms": 376.29084999789376
+      },
+      "wall_time_s": 4.305457399983425,
+      "keyframes": 8,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 8,
+        "tracking_failures": 5,
+        "fallbacks_used": 5,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 3,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 3,
+        "active_inverse_depth_points": 895,
+        "active_points_culled": 0,
+        "mean_valid_projected_points": 285.8421052631579,
+        "median_valid_projected_points": 292.0,
+        "mean_inlier_ratio": 0.4786379733989272,
+        "marginalizations": 0,
+        "photometric_ba_runs": 0,
+        "ba_runs": 1,
+        "ba_accepted": 0,
+        "ba_rejected": 1,
+        "last_tracking_cost": 47174.53462755657,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    },
+    "outlier_culling_off": {
+      "trajectory_path": "results\\dso_opt_ablation20\\dso_outlier_culling_off_seq00.txt",
+      "tracking_config": {
+        "max_translation_m": 5.0,
+        "max_rotation_deg": 15.0,
+        "min_valid_projected_points": 30,
+        "min_inlier_ratio": 0.15,
+        "residual_inlier_threshold": 25.0,
+        "enable_motion_gate": true,
+        "enable_outlier_culling": false,
+        "enable_grid_selection": false,
+        "enable_photometric_refinement": true,
+        "enable_affine_brightness": true,
+        "enable_strict_loop_verification": true,
+        "enable_loop_correction": true,
+        "enable_left_right_depth_check": true,
+        "lr_disparity_tolerance_px": 1.5,
+        "min_gradient_magnitude": 8.0,
+        "min_valid_projected_ratio": 0.35,
+        "enable_residual_p95_gate": true,
+        "max_residual_p95": 140.0,
+        "enable_cost_jump_gate": true,
+        "max_cost_jump_ratio": 3.0,
+        "enable_lk_consistency_gate": true,
+        "max_lk_translation_delta_m": 2.5,
+        "max_lk_rotation_delta_deg": 8.0,
+        "enable_joint_window_ba": true,
+        "ba_max_keyframes": 5,
+        "ba_max_points_per_keyframe": 160,
+        "ba_max_nfev": 15,
+        "force_keyframe_after_fallback": true,
+        "max_consecutive_failures": 3,
+        "enable_clahe": false,
+        "enable_gradient_normalized_residual": false,
+        "fallback_mode": "lk_pnp_then_constant_velocity"
+      },
+      "ate_rmse_m": 1.1190924939615412,
+      "rpe_trans_percent": null,
+      "rpe_rot_deg_per_m": null,
+      "kitti_segments": {
+        "segment_lengths_m": [
+          100,
+          200,
+          300,
+          400,
+          500,
+          600,
+          700,
+          800
+        ],
+        "per_length": {
+          "100": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "200": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "300": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "400": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "500": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "600": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "700": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          },
+          "800": {
+            "num_segments": 0,
+            "trans_percent": null,
+            "rot_deg_per_m": null
+          }
+        },
+        "mean_trans_percent": null,
+        "mean_rot_deg_per_m": null,
+        "num_segments": 0
+      },
+      "runtime": {
+        "avg_ms": 1514.2403842060287,
+        "median_ms": 262.5433999928646,
+        "p95_ms": 3770.805520011302
+      },
+      "wall_time_s": 29.159075399977155,
+      "keyframes": 9,
+      "robustness": {
+        "frames_processed": 20,
+        "keyframes": 9,
+        "tracking_failures": 5,
+        "fallbacks_used": 5,
+        "motion_gate_rejections": 0,
+        "low_projection_rejections": 0,
+        "residual_p95_gate_rejections": 0,
+        "cost_jump_rejections": 0,
+        "lk_consistency_rejections": 0,
+        "consecutive_failures": 0,
+        "reinitializations": 0,
+        "relocalization_attempts": 0,
+        "relocalization_successes": 0,
+        "loop_candidates": 0,
+        "loop_verified": 0,
+        "loop_corrections_applied": 0,
+        "loop_closures": 0,
+        "active_window_keyframes": 4,
+        "active_inverse_depth_points": 1135,
+        "active_points_culled": 52,
+        "mean_valid_projected_points": 280.2631578947368,
+        "median_valid_projected_points": 290.0,
+        "mean_inlier_ratio": 0.4828605843842702,
+        "marginalizations": 0,
+        "photometric_ba_runs": 1,
+        "ba_runs": 2,
+        "ba_accepted": 1,
+        "ba_rejected": 1,
+        "last_tracking_cost": 80084.47968273686,
+        "stereo_depth_filter": "left_right_consistency"
+      }
+    }
+  }
+}
