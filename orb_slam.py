@@ -19,6 +19,7 @@ from slam_base import (
 )
 from local_mapping import LocalMapping, LocalMappingConfig
 from loop_detector import LoopDetector
+from orb_advanced import GlobalBundleAdjuster, LocalMapTracker, Relocalizer, Sim3LoopFusion
 
 
 class ORBSLAM2:
@@ -68,6 +69,23 @@ class ORBSLAM2:
         self.global_id_counter = 0
         self.trajectory: list[np.ndarray] = [np.eye(4, dtype=np.float64)]
         self.loop_edges: list[tuple[int, int, np.ndarray]] = []
+        self.last_inlier_count = 0
+        self.frames_since_keyframe = 0
+        self.descriptor_history: list[np.ndarray] = []
+        self.camera_matrix = self.calib.k_left
+        self.local_map_tracker = LocalMapTracker(self.camera_matrix)
+        self.relocalizer = Relocalizer(self.camera_matrix)
+        self.loop_fusion = Sim3LoopFusion()
+        self.global_ba = GlobalBundleAdjuster(self.camera_matrix)
+        self.tracking_lost_count = 0
+        self.frames_processed = 0
+        self.tracking_failures = 0
+        self.relocalization_attempts = 0
+        self.relocalization_successes = 0
+        self.loop_candidates = 0
+        self.loop_closures = 0
+        self.local_map_refinements = 0
+        self.global_ba_runs = 0
 
     # -------------------------------------------------------------------------
     # Tracking (frontend)
@@ -108,6 +126,7 @@ class ORBSLAM2:
 
     def _estimate_pose(self, prev_kp, curr_kp, prev_pts_3d, prev_desc, curr_desc):
         """PnP RANSAC pose estimation."""
+        self.last_inlier_count = 0
         if prev_desc is None or curr_desc is None:
             return np.eye(4, dtype=np.float64)
 
@@ -146,6 +165,7 @@ class ORBSLAM2:
         if not succ or inliers is None or len(inliers) < 30:
             return np.eye(4, dtype=np.float64)
 
+        self.last_inlier_count = int(len(inliers))
         R, _ = cv2.Rodrigues(rvec)
         T = np.eye(4, dtype=np.float64)
         T[:3, :3] = R
@@ -154,8 +174,7 @@ class ORBSLAM2:
 
     def _should_insert_keyframe(self, num_tracked: int) -> bool:
         """Keyframe insertion criterion based on tracked points."""
-        # Insert if fewer than 50 points tracked or every N frames
-        return num_tracked < 50 or (len(self.keyframes) % 3 == 0)
+        return len(self.keyframes) == 0 or num_tracked < 50 or self.frames_since_keyframe >= 3
 
     # -------------------------------------------------------------------------
     # Local Mapping
@@ -169,7 +188,10 @@ class ORBSLAM2:
             pose=pose,
             left_image=left.copy(),
             right_image=right.copy(),
+            keypoints=kp,
             descriptors=desc,
+            points_3d=pts_3d,
+            valid_mask=valid_mask,
             map_points=[],
         )
         kf.bow_vector = self._compute_bow(desc)
@@ -179,16 +201,17 @@ class ORBSLAM2:
         """Compute bag-of-words vector for a descriptor set."""
         if descriptors is None or len(descriptors) < 30:
             return None
-        # Use pre-built vocabulary or simple frequency count
-        vocab_size = 10
-        bow = np.zeros(vocab_size, dtype=np.float32)
-        for d in descriptors:
-            # Simple k-means-like assignment (placeholder)
-            idx = int(np.sum(d.astype(np.float32)) % vocab_size)
-            bow[idx] += 1.0
-        if bow.sum() > 0:
-            bow /= bow.sum()
-        return bow
+
+        self.descriptor_history.append(descriptors)
+        if len(self.descriptor_history) > 50:
+            self.descriptor_history.pop(0)
+
+        vocabulary = self.loop_detector.vocabulary
+        if vocabulary.centers is None and len(self.descriptor_history) >= 5:
+            vocabulary.build(self.descriptor_history)
+        if vocabulary.centers is None:
+            return None
+        return vocabulary.transform(descriptors)
 
     # -------------------------------------------------------------------------
     # Loop Closing
@@ -207,6 +230,8 @@ class ORBSLAM2:
         skip_recent = min(10, len(history))
 
         for i, (hist_kf_id, hist_bow) in enumerate(history[:-skip_recent] if history else []):
+            if hist_bow is None:
+                continue
             # Compute cosine similarity
             norm1 = np.linalg.norm(kf.bow_vector)
             norm2 = np.linalg.norm(hist_bow)
@@ -220,26 +245,129 @@ class ORBSLAM2:
         if best_sim < self.loop_detector.min_sim:
             return None
 
+        self.loop_candidates += 1
+        if best_kf_id is None or not self._verify_loop_candidate(kf, best_kf_id):
+            return None
+
         return best_kf_id
+
+    def _relocalize(self, curr_kp, curr_desc) -> Optional[np.ndarray]:
+        self.relocalization_attempts += 1
+        if curr_desc is None or not curr_kp:
+            return None
+        bow = self._compute_bow(curr_desc)
+        result = self.relocalizer.relocalize(
+            bow,
+            curr_kp,
+            curr_desc,
+            self.keyframes,
+            self.loop_detector.vocabulary,
+        )
+        if result is None:
+            return None
+        self.last_inlier_count = result.inliers
+        self.tracking_lost_count = 0
+        self.relocalization_successes += 1
+        return result.pose
+
+    def _track_local_map(self, pose_guess: np.ndarray, curr_kp, curr_desc) -> np.ndarray:
+        local_points = self.local_map_tracker.collect_local_map(
+            self.current_kf,
+            self.keyframes,
+            self.covisibility,
+        )
+        result = self.local_map_tracker.refine_pose(pose_guess, curr_kp, curr_desc, local_points)
+        if result.inliers > self.last_inlier_count:
+            self.last_inlier_count = result.inliers
+            self.local_map_refinements += 1
+            return result.pose
+        return pose_guess
+
+    def _verify_loop_candidate(self, kf: KeyFrame, candidate_id: int) -> bool:
+        """Geometric loop verification with ORB matches and essential matrix RANSAC."""
+        candidate = next((old_kf for old_kf in self.keyframes if old_kf.id == candidate_id), None)
+        if candidate is None or kf.descriptors is None or candidate.descriptors is None:
+            return False
+        if not kf.keypoints or not candidate.keypoints:
+            return False
+
+        raw_matches = self.matcher.knnMatch(kf.descriptors, candidate.descriptors, k=2)
+        matches = []
+        for candidates in raw_matches:
+            if len(candidates) < 2:
+                continue
+            best, second = candidates
+            if best.distance < 0.75 * second.distance:
+                matches.append(best)
+
+        if len(matches) < self.loop_detector.min_matches:
+            return False
+
+        pts1 = np.float32([kf.keypoints[m.queryIdx].pt for m in matches])
+        pts2 = np.float32([candidate.keypoints[m.trainIdx].pt for m in matches])
+        _, mask = cv2.findEssentialMat(
+            pts1,
+            pts2,
+            self.calib.k_left,
+            method=cv2.RANSAC,
+            prob=0.999,
+            threshold=3.0,
+        )
+        return mask is not None and int(mask.ravel().sum()) >= self.loop_detector.min_matches
 
     def _correct_loop(self, loop_kf_id: int, current_kf_id: int) -> None:
         """Correct loop: compute Sim3, update graph, run pose graph optimization."""
+        current = next((kf for kf in self.keyframes if kf.id == current_kf_id), None)
+        loop = next((kf for kf in self.keyframes if kf.id == loop_kf_id), None)
+        if current is None or loop is None:
+            return
+
+        sim3 = self.loop_fusion.fuse(current, loop, self.keyframes)
+        if sim3 is None:
+            return
+        self.loop_closures += 1
+
         # Collect all keyframe poses
         kf_poses = {kf.id: kf.pose for kf in self.keyframes}
         kf_poses[current_kf_id] = self.current_kf.pose if self.current_kf else np.eye(4)
 
-        # Add loop edge (approximate with identity for now)
-        # In full impl: compute Sim3 between loop_kf and current_kf
         T_loop_current = np.linalg.inv(kf_poses[loop_kf_id]) @ kf_poses[current_kf_id]
         self.loop_edges.append((loop_kf_id, current_kf_id, T_loop_current))
+        self.essential_graph.add_edge(loop_kf_id, current_kf_id, T_loop_current)
 
         # Run pose graph optimization
         if len(self.loop_edges) > 0:
+            residual_count = len(self.loop_edges) * 2 + 6
+            variable_count = len(kf_poses) * 6
+            if residual_count < variable_count:
+                return
             optimized = solve_pose_graph(self.loop_edges, kf_poses, iterations=100)
             # Update keyframe poses
             for kf in self.keyframes:
                 if kf.id in optimized:
                     kf.pose = optimized[kf.id]
+            if self.global_ba.optimize(self.keyframes):
+                self.global_ba_runs += 1
+
+    def get_stats(self) -> dict[str, int]:
+        unique_points = {
+            mp.id
+            for kf in self.keyframes
+            for mp in kf.map_points
+            if mp.valid
+        }
+        return {
+            "frames_processed": self.frames_processed,
+            "keyframes": len(self.keyframes),
+            "tracking_failures": self.tracking_failures,
+            "relocalization_attempts": self.relocalization_attempts,
+            "relocalization_successes": self.relocalization_successes,
+            "loop_candidates": self.loop_candidates,
+            "loop_closures": self.loop_closures,
+            "local_map_refinements": self.local_map_refinements,
+            "global_ba_runs": self.global_ba_runs,
+            "map_points": len(unique_points),
+        }
 
     # -------------------------------------------------------------------------
     # Main run loop
@@ -249,12 +377,31 @@ class ORBSLAM2:
         """Run full ORB-SLAM2 system on the loaded sequence."""
         trajectory = [np.eye(4, dtype=np.float64)]
         runtimes = []
-        timestamps = []
 
-        prev_kp, prev_desc, prev_pts_3d, prev_valid = None, None, None, None
+        frames = iter(self.loader.iter_frames())
+        try:
+            first_frame = next(frames)
+        except StopIteration:
+            return trajectory, runtimes
+
         current_pose = np.eye(4, dtype=np.float64)
+        self.frames_processed = 1
+        start = time.perf_counter()
+        prev_kp, prev_desc, prev_pts_3d, _ = self._extract_stereo_observation(
+            first_frame.left, first_frame.right
+        )
+        first_kf = self._create_keyframe(
+            first_frame.left, first_frame.right, current_pose.copy(), first_frame.timestamp
+        )
+        self.keyframes.append(first_kf)
+        self.covisibility.add_keyframe(first_kf)
+        self.current_kf = first_kf
+        self.loop_detector.bow_history.append((first_kf.id, first_kf.bow_vector))
+        self.local_mapping.insert_keyframe(first_kf)
+        self.local_mapping.run()
+        runtimes.append((time.perf_counter() - start) * 1000.0)
 
-        for idx, frame in enumerate(self.loader.iter_frames()):
+        for idx, frame in enumerate(frames, start=1):
             start = time.perf_counter()
 
             # === TRACKING ===
@@ -263,13 +410,22 @@ class ORBSLAM2:
             )
 
             # Estimate relative motion if we have previous frame
-            if prev_kp is not None:
-                relative_pose = self._estimate_pose(
-                    prev_kp, curr_kp, prev_pts_3d, prev_desc, curr_desc
-                )
+            relative_pose = self._estimate_pose(
+                prev_kp, curr_kp, prev_pts_3d, prev_desc, curr_desc
+            )
+            if self.last_inlier_count == 0:
+                relocalized = self._relocalize(curr_kp, curr_desc)
+                if relocalized is not None:
+                    current_pose = relocalized
+                else:
+                    self.tracking_lost_count += 1
+                    self.tracking_failures += 1
+            else:
                 current_pose = current_pose @ np.linalg.inv(relative_pose)
+                current_pose = self._track_local_map(current_pose, curr_kp, curr_desc)
 
-            num_tracked = int(curr_valid.sum()) if curr_valid is not None else 0
+            num_tracked = self.last_inlier_count
+            self.frames_since_keyframe += 1
 
             # === KEYFRAME INSERTION ===
             if self._should_insert_keyframe(num_tracked):
@@ -288,6 +444,7 @@ class ORBSLAM2:
                 # === LOCAL MAPPING ===
                 self.local_mapping.insert_keyframe(kf)
                 self.local_mapping.run()
+                self.frames_since_keyframe = 0
 
                 # === LOOP CLOSING ===
                 loop_candidate_id = self._detect_loop(kf)
@@ -295,8 +452,8 @@ class ORBSLAM2:
                     self._correct_loop(loop_candidate_id, kf.id)
 
             trajectory.append(current_pose.copy())
-            timestamps.append(frame.timestamp if frame.timestamp else idx)
             runtimes.append((time.perf_counter() - start) * 1000.0)
+            self.frames_processed += 1
 
             prev_kp, prev_desc, prev_pts_3d = curr_kp, curr_desc, curr_pts_3d
 

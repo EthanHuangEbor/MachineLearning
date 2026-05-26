@@ -1,0 +1,84 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1778053552749,
+  "projectRoot": "d:\\Project\\2-MashineLearning",
+  "techStack": {
+    "languages": [
+      {
+        "name": "Python",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "requirements.txt"
+        ]
+      }
+    ],
+    "frameworks": [],
+    "packageManager": "pip",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
+      "fileCount": 0,
+      "lastAccessed": 1778053552702,
+      "keyFiles": []
+    },
+    "results": {
+      "path": "results",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1778053552703,
+      "keyFiles": []
+    },
+    "__pycache__": {
+      "path": "__pycache__",
+      "purpose": null,
+      "fileCount": 9,
+      "lastAccessed": 1778053552704,
+      "keyFiles": [
+        "direct_vo.cpython-311.pyc",
+        "dso_slam.cpython-311.pyc",
+        "evaluate.cpython-311.pyc",
+        "kitti_utils.cpython-311.pyc",
+        "local_mapping.cpython-311.pyc"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "AI.md",
+      "accessCount": 1,
+      "lastAccessed": 1778124835073,
+      "type": "file"
+    },
+    {
+      "path": "README.md",
+      "accessCount": 1,
+      "lastAccessed": 1778124889985,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

@@ -1,200 +1,224 @@
-# KITTI 视觉 SLAM 算法复现与对比
+# KITTI ORB / DSO / SVO Python SLAM Baselines
 
-基于 KITTI Odometry 数据集，复现两种视觉 SLAM 算法并进行对比分析。
+本仓库是在 KITTI Odometry stereo 数据上运行的 Python 视觉 SLAM / VO 研究基线。当前统一比较三条路线：
 
-## 项目概述
+- `ORB-SLAM2-inspired stereo SLAM`
+- `DSO-inspired direct sparse stereo SLAM`
+- `SVO-style semi-direct stereo visual odometry/SLAM`
 
-**研究任务**：在 KITTI Odometry 数据集上复现 ORB-SLAM2 与 DSO 两种视觉定位/建图算法，从轨迹精度、运行效率和鲁棒性三个方面进行对比分析。
+重要边界：这里提供的是 **reproducible Python research baselines**，不是 ORB-SLAM2、DSO 或 SVO 的官方 C++ 完整论文级复现。`run_benchmark.py` 输出的 `implementation_manifest.paper_level_claim` 必须保持 `false`。
 
-**技术路线**：
-- **ORB-SLAM2**（特征点法）— 基于 ORB 特征提取 + PnP 姿态估计 + 局部 BA + 回环检测
-- **DSO**（直接法）— 基于高梯度像素光度误差 + LM 多层优化 + 局部光度 BA + 回环检测
+## 当前状态
 
-两种方法在前端跟踪策略上不同（特征匹配 vs 直接光度对齐），后端和回环使用相同基础设施，保证公平对比。
+当前代码已经从早期“两算法 VO demo”演进为三算法统一 benchmark。旧入口 `orb_vo.py` 和 `direct_vo.py` 已经不再存在，也不需要恢复；完整运行入口是 `run_benchmark.py`，DSO 消融入口是 `dso_ablation.py`。
 
----
+本次梳理后的文档判断：
 
-## 目录结构
+| 文件 | 状态 | 处理建议 |
+| --- | --- | --- |
+| `README.md` | 当前主说明文件 | 已按实际仓库更新为完整版 |
+| `PAPER_LEVEL_STATUS.md` | 有用 | 保留，作为论文级复现边界说明 |
+| `Goal.md` | 阶段性任务书 | 可保留归档，不作为用户使用文档 |
+| `AI.md` | 早期课程规划 | 内容已过时，可保留归档或移入 `docs/archive/` |
+| `00000_Report/slam_report_Latex/README.md` | 报告编译说明 | 有用，仅服务 LaTeX 报告目录 |
 
-```
-2-MashineLearning/
-├── slam_base.py          # 共用基础设施：KeyFrame, MapPoint, CovisibilityGraph, BA求解器
-├── local_mapping.py      # 局部建图：地图点创建、局部BA、地图点筛选
-├── loop_detector.py      # 回环检测：词袋(BoW) + 几何校验 + Sim3
-│
-├── kitti_utils.py        # KITTI数据集加载、标定、深度转换
-├── orb_vo.py            # ORB特征点法视觉里程计（前端，仅供参考对比）
-├── direct_vo.py         # DSO风格直接法里程计（前端，仅供参考对比）
-│
-├── orb_slam.py          # 完整ORB-SLAM2系统（前端+后端+回环）
-├── dso_slam.py          # 完整DSO-SLAM系统（前端+后端+回环）
-│
-├── evaluate.py          # 轨迹评估：ATE RMSE、RPE、轨迹可视化
-│
-├── requirements.txt     # Python依赖
-├── AI.md                # 项目详细规划文档（中文）
-└── README.md
-```
+算法文件判断：
 
----
+| 文件 | 作用 | 是否保留 |
+| --- | --- | --- |
+| `run_benchmark.py` | ORB / DSO / SVO 统一 benchmark、JSON 和图输出 | 保留，主入口 |
+| `dso_ablation.py` | DSO 消融实验入口 | 保留 |
+| `orb_slam.py` | ORB-SLAM2-inspired 主实现 | 保留 |
+| `dso_slam.py` | DSO-inspired 主实现、diagnostics、motion gate、fallback | 保留 |
+| `svo_slam.py` | SVO-style semi-direct 主实现 | 保留 |
+| `kitti_utils.py` | KITTI 数据加载、标定、轨迹保存 | 保留 |
+| `evaluate.py` | 指标、轨迹读取、绘图、JSON safe | 保留；CLI 仍偏传统双算法，三算法请用 `run_benchmark.py` |
+| `slam_profiles.py` | manifest 与 paper-level claim | 保留 |
+| `slam_base.py` | KeyFrame、MapPoint、图结构、BA / pose graph 基础 | 保留 |
+| `local_mapping.py` | ORB/local mapping 共享后端 | 保留 |
+| `loop_detector.py` | BoW / loop candidate / Sim3 工具 | 保留 |
+| `orb_advanced.py` | ORB local map、relocalization、Sim3 fusion、global BA | 保留 |
+| `dso_advanced.py` | DSO photometric calibration、inverse-depth active window、prior | 保留 |
+| `orb_vo.py` | 旧 ORB VO demo 文件，已删除 | 无需恢复 |
+| `direct_vo.py` | 旧 direct VO demo 文件，已删除 | 无需恢复 |
 
-## 算法原理
+## 数据目录
 
-### ORB-SLAM2（特征点法）
+当前仓库按 KITTI Odometry 结构读取双目灰度图像：
 
-**核心思想**：提取 ORB 特征点 → 双目匹配三角化 → PnP+RANSAC 估计相机位姿
-
-**系统组成**：
-1. **Tracking**：ORB 特征检测 → 左右目匹配 → 3D 点三角化 → PnP 姿态估计 → 关键帧判断
-2. **Local Mapping**：新地图点三角化 → 局部 Bundle Adjustment → 地图点筛选
-3. **Loop Closing**：BoW 词袋匹配 → 几何校验（RANSAC+本质矩阵）→ Pose Graph 优化
-
-### DSO（直接稀疏里程计）
-
-**核心思想**：不提取特征，直接利用高梯度像素的光度误差优化相机位姿
-
-**系统组成**：
-1. **Tracking**：高梯度像素选择 → 双目深度估计 → 光度误差构建 → 多层金字塔 LM 优化
-2. **Local Mapping**：光度 BA（EnergyFunctional）→ 关键帧管理 → 共视图更新
-3. **Loop Closing**：ORB 特征匹配找回环候选 → 几何校验 → Pose Graph 优化
-
-### 关键对比
-
-| 维度 | ORB-SLAM2 | DSO |
-|------|-----------|-----|
-| 前端方法 | 特征点 + PnP | 直接光度对齐 |
-| 误差类型 | 重投影几何误差 | 光度误差 |
-| 优化变量 | 稀疏特征点 | 稀疏像素点 |
-| 光照敏感性 | 中等 | 高 |
-| 纹理要求 | 需要角点/边缘 | 需要梯度信息 |
-
----
-
-## 数据准备
-
-### 下载地址
-
-KITTI Odometry Benchmark：https://www.cvlibs.net/datasets/kitti/eval_odometry.php
-
-**需要下载**：
-1. **odometry data set (grayscale)** — 22 GB（双目灰度图像序列）
-2. **ground truth poses** — 4 MB（序列 00-10 的真值轨迹）
-3. **calibration files** — 1 MB（相机标定参数）
-
-### 目录结构
-
-下载解压后按以下结构放置：
-
-```
-data/
-└── kitti_odometry/
-    ├── sequences/
-    │   └── 00/
-    │       ├── image_0/       ← 双目左图（000000.png ~ NNNNNN.png）
-    │       ├── image_1/       ← 双目右图
-    │       ├── calib.txt      ← 相机标定
-    │       └── times.txt      ← 时间戳
-    └── poses/
-        └── 00.txt             ← 真值轨迹
+```text
+data/kitti_odometry/
+  sequences/
+    00/
+      image_0/
+      image_1/
+      calib.txt
+      times.txt
+    poses/
+      00.txt
 ```
 
-**验证数据是否就绪**：
-```bash
-ls data/kitti_odometry/sequences/00/image_0/ | head -3
-ls data/kitti_odometry/poses/00.txt
+`KITTIOdometryLoader` 也兼容真值位于 `data/kitti_odometry/poses/00.txt` 的常见布局。当前本地 `sequence 00` 左右目各有 4541 帧。
+
+## 安装
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
----
+依赖见 `requirements.txt`：
 
-## 运行方法
-
-### 安装依赖
-
-```bash
-pip install -r requirements.txt
+```text
+opencv-python
+numpy
+scipy
+matplotlib
+scikit-learn
 ```
 
-### 运行完整系统对比
+## 推荐运行
 
-**1. 运行 ORB-SLAM2**：
-```bash
-python orb_slam.py --seq 00 --output results/orb_slam_seq00.txt
+20 帧三算法 smoke benchmark：
+
+```powershell
+.\.venv\Scripts\python.exe -B run_benchmark.py --data-dir data/kitti_odometry --seq 00 --max-frames 20 --algorithms orb,dso,svo --features 800 --points 800 --svo-points 1500 --output-dir results\tri_slam_20
 ```
 
-**2. 运行 DSO-SLAM**：
-```bash
-python dso_slam.py --seq 00 --output results/dso_slam_seq00.txt
+100 帧三算法 benchmark：
+
+```powershell
+.\.venv\Scripts\python.exe -B run_benchmark.py --data-dir data/kitti_odometry --seq 00 --max-frames 100 --algorithms orb,dso,svo --features 1500 --points 1500 --svo-points 1500 --output-dir results\tri_slam_100
 ```
 
-**3. 评估对比**：
-```bash
-python evaluate.py --seq 00
+DSO 100 帧消融实验：
+
+```powershell
+.\.venv\Scripts\python.exe -B dso_ablation.py --data-dir data/kitti_odometry --seq 00 --max-frames 100 --points 1500 --output-dir results\dso_ablation_100
 ```
 
-**可选参数**：
-```bash
---seq        # KITTI序列号，默认00
---data-dir   # 数据根目录，默认data/kitti_odometry
---output     # 输出轨迹路径
---features   # ORB特征数量，默认1500
---points     # DSO活跃像素数量，默认1500
+结构验证：
+
+```powershell
+.\.venv\Scripts\python.exe -m py_compile dso_ablation.py dso_advanced.py dso_slam.py evaluate.py kitti_utils.py local_mapping.py loop_detector.py orb_advanced.py orb_slam.py run_benchmark.py slam_base.py slam_profiles.py svo_slam.py
 ```
 
-### 运行旧版前端对比（仅前端里程计，无后端回环）
+注意：当前根目录没有 `tests/` 目录。若需要正式回归测试，建议补回 `tests/test_reliability.py`，覆盖 manifest、JSON safe、trajectory length mismatch、DSO diagnostics 和 SVO short-sequence。
 
-```bash
-python orb_vo.py --seq 00
-python direct_vo.py --seq 00
-python evaluate.py --seq 00
+## Benchmark 输出
+
+`run_benchmark.py` 会生成：
+
+```text
+orb_slam_seq00.txt
+dso_slam_seq00.txt
+svo_slam_seq00.txt
+benchmark_seq00.json
+benchmark_trajectory_seq00.png
+dso_diagnostics_seq00.json
+dso_diagnostics_seq00.csv
+dso_diagnostics_seq00.png
 ```
 
-### 输出结果
+`dso_ablation.py` 会生成：
 
-运行后在 `results/` 目录下生成：
-- `orb_slam_seq00.txt` / `dso_slam_seq00.txt` — 轨迹文件（KITTI 格式）
-- `summary_seq00.json` — ATE/RPE 误差统计
-- `trajectory_seq00.png` — 轨迹可视化对比图
-
----
-
-## 评价指标
-
-| 指标 | 全称 | 说明 |
-|------|------|------|
-| **ATE** | Absolute Trajectory Error | 绝对轨迹误差，RMSE（米） |
-| **RPE_trans** | Relative Pose Error (translation) | 相对平移误差，百分比 |
-| **RPE_rot** | Relative Pose Error (rotation) | 相对旋转误差，度/米 |
-| **Runtime** | 平均每帧处理时间 | 毫秒/帧 |
-
----
-
-## 依赖环境
-
-```
-pykitti          # KITTI数据加载
-evo              # 轨迹评估工具
-opencv-python    # 图像处理、特征提取
-numpy            # 数值计算
-scipy             # 非线性优化（BA求解）
-matplotlib       # 可视化
-open3d           # 3D点云可视化
-scikit-learn     # 词袋聚类
+```text
+dso_ablation_seq00.json
+dso_ablation_seq00.csv
+dso_ablation_seq00.png
+dso_full_simplified_dso_seq00.txt
+dso_lk_pnp_only_seq00.txt
+dso_photometric_with_motion_gate_seq00.txt
+dso_grid_uniform_selection_seq00.txt
+dso_outlier_culling_on_seq00.txt
+dso_outlier_culling_off_seq00.txt
 ```
 
----
+## 已有结果
 
-## 参考论文
+以下数值来自当前仓库已有 JSON 文件，不是手填推测。
 
-- **ORB-SLAM2**: Mur-Artal, Raul, and Juan D. Tardós. "ORB-SLAM2: an Open-Source SLAM System for Monocular, Stereo, and RGB-D Cameras." IEEE Transactions on Robotics, 2017.
-- **DSO**: Engel, Jakob, et al. "Direct Sparse Odometry." IEEE TPAMI, 2018.
+`results/tri_slam_20/benchmark_seq00.json`
 
----
+| Algorithm | ATE RMSE (m) | Runtime avg/median/p95 (ms) | Wall time (s) | Keyframes | Tracking failures | Fallbacks | Loop closures |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| ORB | 0.9367 | 6078.94 / 91.78 / 28712.37 | 121.92 | 7 | 0 | 0 | 0 |
+| DSO | 1.6427 | 610.33 / 386.47 / 1216.79 | 12.16 | 7 | 0 | 0 | 0 |
+| SVO | 1.1066 | 118.25 / 163.89 / 189.46 | 2.76 | 12 | 0 | 0 | 0 |
 
-## 报告结构建议
+`results/tri_slam_100/benchmark_seq00.json`
 
-1. **引言** — SLAM 背景、自动驾驶应用
-2. **理论基础** — SLAM 原理、前端/后端/回环/建图各模块
-3. **算法介绍** — ORB-SLAM2 和 DSO 分别详述
-4. **实验设置** — 硬件、软件、数据集、参数
-5. **结果分析** — 轨迹精度、运行时间、鲁棒性表格/图
-6. **总结** — 两种算法优缺点、适用场景
+| Algorithm | ATE RMSE (m) | Runtime avg/median/p95 (ms) | Wall time (s) | Keyframes | Tracking failures | Fallbacks | Loop closures |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| ORB | 2.1349 | 108781.18 / 149.90 / 63623.81 | 10881.14 | 34 | 0 | 0 | 0 |
+| DSO | 87.8995 | 441.29 / 261.63 / 1250.25 | 44.97 | 40 | 6 | 6 | 0 |
+| SVO | 2.2858 | 69.35 / 82.55 / 104.25 | 7.87 | 75 | 0 | 0 | 0 |
+
+说明：
+
+- 20 / 100 帧短序列没有足够的 100m+ path segment，因此 `rpe_trans_percent`、`rpe_rot_deg_per_m` 和 KITTI segment mean 可能为 `null`。
+- `tri_slam_100` 中 ORB 的 wall time 和 runtime 平均值存在明显长尾，应在写报告前重新运行或单独 profiling，不建议直接把该耗时作为最终效率结论。
+- `tri_slam_100` 中 DSO drift 很明显，应解释为当前 Python baseline 的实现限制，不代表原始 DSO 方法本身失败。
+
+`results/dso_ablation_100/dso_ablation_seq00.json`
+
+| Config | ATE RMSE (m) | Tracking failures | Fallbacks | Motion gate rejections | Mean valid points | Mean inlier ratio | Avg runtime (ms) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| full_simplified_dso | 40.0404 | 1 | 1 | 0 | 1113.22 | 0.7338 | 734.29 |
+| lk_pnp_only | 77.2572 | 0 | 0 | 0 | 1115.00 | 0.6717 | 616.25 |
+| photometric_with_motion_gate | 75.7913 | 17 | 17 | 10 | 1346.86 | 0.4826 | 534.43 |
+| grid_uniform_selection | 11.6835 | 1 | 1 | 0 | 1113.49 | 0.7381 | 836.57 |
+| outlier_culling_on | 9.5661 | 14 | 14 | 10 | 1361.77 | 0.4819 | 593.63 |
+| outlier_culling_off | 75.7913 | 17 | 17 | 10 | 1346.86 | 0.4826 | 535.78 |
+
+## Notebook
+
+`slam_comparison.ipynb` 是当前推荐的交互式查看入口。它会读取：
+
+```text
+results/tri_slam_20/benchmark_seq00.json
+results/tri_slam_100/benchmark_seq00.json
+results/dso_ablation_100/dso_ablation_seq00.json
+```
+
+并展示三算法结果表、鲁棒性统计、轨迹图、DSO diagnostics 图和 DSO ablation 表。旧 notebook 中引用的 `orb_vo.py`、`direct_vo.py`、`orb_seq00.txt`、`direct_seq00.txt` 已过时。
+
+## 实现边界
+
+### ORB-SLAM2-inspired
+
+已包含 ORB 特征、双目深度、PnP RANSAC、关键帧、局部建图、local map tracking、BoW/PnP relocalization、loop candidate、Sim3 loop fusion、pose graph 和 bounded BA。仍缺少官方级离线大词袋、完整 spanning tree / essential graph 策略和成熟 map point replacement / loop fusion 细节。
+
+### DSO-inspired
+
+已包含高梯度点、stereo depth 初始化、coarse-to-fine photometric tracking、LK+PnP 初始化、Huber photometric residual、affine brightness、inverse-depth active window、轻量 prior、motion gate、fallback、逐帧 diagnostics 和 ablation。仍不是完整 DSO 的联合 photometric BA、Schur complement marginalization 和数据集标定文件驱动的 photometric calibration。
+
+### SVO-style
+
+已包含 stereo depth 初始化、grid-uniform sparse point selection、pyramidal LK patch tracking、PnP RANSAC、motion gate、fallback、关键帧插入和稀疏点维护。未实现原始 SVO 的完整概率深度滤波、不确定性传播、成熟重定位和回环后端。
+
+## 建议清理
+
+不建议删除当前根目录 `.py` 算法文件；它们都仍有引用或承担入口/共享模块职责。可以考虑后续做两类整理：
+
+- 把 `AI.md`、`Goal.md` 移入 `docs/archive/`，避免和当前 README 冲突。
+- 把 `evaluate.py` 的 CLI 扩展到直接支持 SVO，或在 README 中继续明确三算法评测统一走 `run_benchmark.py`。
+
+## 报告表述建议
+
+建议写作时使用：
+
+```text
+Python research baselines inspired by ORB-SLAM2, DSO, and SVO.
+```
+
+不要写成：
+
+```text
+official/full paper-level reproduction of ORB-SLAM2, DSO, and SVO
+```
+
+对 DSO 结果应谨慎表述：
+
+```text
+The simplified DSO-inspired Python baseline remains sensitive to photometric assumptions, initialization quality, and incomplete joint photometric optimization. The observed drift should be interpreted as an implementation-level limitation rather than a failure of the original DSO method.
+```

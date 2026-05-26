@@ -1,8 +1,5 @@
-pykitti
-evo
 opencv-python
 numpy
 scipy
 matplotlib
-open3d
 scikit-learn

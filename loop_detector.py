@@ -7,8 +7,7 @@ from __future__ import annotations
 
 import cv2
 import numpy as np
-from collections import defaultdict
-from slam_base import KeyFrame, CovisibilityGraph
+from slam_base import KeyFrame
 
 
 # -----------------------------------------------------------------------------
@@ -89,11 +88,21 @@ class LoopDetector:
         """Process a new keyframe. Returns loop candidate keyframe IDs."""
         if descriptors is not None and len(descriptors) > 30:
             if self.vocabulary.centers is None:
-                # Build vocabulary lazily on first few keyframes
-                pass
-            kf.bow_vector = self.vocabulary.transform(descriptors)
+                history_desc = [
+                    old_kf.descriptors
+                    for old_kf in getattr(self, "_keyframe_history", [])
+                    if old_kf.descriptors is not None and len(old_kf.descriptors) > 30
+                ]
+                if len(history_desc) >= 3:
+                    self.vocabulary.build(history_desc + [descriptors])
+            if self.vocabulary.centers is not None:
+                kf.bow_vector = self.vocabulary.transform(descriptors)
 
         candidates = self._find_candidates(kf)
+        self._keyframe_history = getattr(self, "_keyframe_history", [])
+        self._keyframe_history.append(kf)
+        if kf.bow_vector is not None:
+            self.bow_history.append((kf.id, kf.bow_vector))
         if candidates:
             self.candidates[kf.id] = candidates
             return candidates
@@ -136,16 +145,15 @@ class LoopDetector:
         if len(matches) < self.min_matches:
             return False, np.eye(4)
 
-        # Build point correspondences
+        # Build pixel correspondences.
         pts1 = []
         pts2 = []
         for m in matches[:self.min_matches]:
             if hasattr(m, 'queryIdx') and hasattr(m, 'trainIdx'):
-                p1 = kf1.map_points[m.queryIdx].position if kf1.map_points else None
-                p2 = kf1.map_points[m.trainIdx].position if kf1.map_points else None
-                # Fallback: use pixel coordinates as approximation
-                if p1 is None or p2 is None:
+                if m.queryIdx >= len(kf1.keypoints) or m.trainIdx >= len(kf2.keypoints):
                     continue
+                p1 = kf1.keypoints[m.queryIdx].pt
+                p2 = kf2.keypoints[m.trainIdx].pt
                 pts1.append(p1)
                 pts2.append(p2)
 
@@ -157,7 +165,7 @@ class LoopDetector:
 
         # Essential matrix from calibrated cameras
         E, mask = cv2.findEssentialMat(
-            pts1[:, :2], pts2[:, :2],
+            pts1, pts2,
             calib[:3, :3],
             threshold=self.ransac_threshold,
             prob=0.999,
@@ -168,7 +176,7 @@ class LoopDetector:
             return False, np.eye(4)
 
         # Recover pose
-        _, R, t, _ = cv2.recoverPose(E, pts1[:, :2], pts2[:, :2], calib[:3, :3])
+        _, R, t, _ = cv2.recoverPose(E, pts1, pts2, calib[:3, :3])
         T = np.eye(4)
         T[:3, :3] = R
         T[:3, 3] = t.ravel()

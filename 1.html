@@ -1,0 +1,355 @@
+<svg width="1080" height="1920" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0.9" y2="1">
+      <stop offset="0%" stop-color="#061021"/>
+      <stop offset="48%" stop-color="#0A1D3D"/>
+      <stop offset="100%" stop-color="#102B5C"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0C1C39" stop-opacity="0.82"/>
+      <stop offset="100%" stop-color="#132C59" stop-opacity="0.56"/>
+    </linearGradient>
+    <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1C8CFF" stop-opacity="0.18"/>
+      <stop offset="50%" stop-color="#66E8FF" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#1C8CFF" stop-opacity="0.18"/>
+    </linearGradient>
+    <linearGradient id="beamGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#66E8FF" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#66E8FF" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#66E8FF" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1C8CFF" stop-opacity="0.32"/>
+      <stop offset="100%" stop-color="#1C8CFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#66E8FF" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#66E8FF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="microGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="1.7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .cn{font-family:"Noto Sans SC","Source Han Sans SC","Microsoft YaHei","PingFang SC",sans-serif;}
+      .en{font-family:"Inter","Arial",sans-serif;}
+      .t-main{fill:#EAF6FF;font-weight:800;letter-spacing:6px}
+      .t-sub{fill:#68C8FF;font-weight:600;letter-spacing:8px}
+      .t-body{fill:#EAF6FF}
+      .t-muted{fill:#A9C9E8}
+      .stroke-a{stroke:#66E8FF;stroke-opacity:.28;fill:none}
+      .stroke-b{stroke:#1C8CFF;stroke-opacity:.22;fill:none}
+      .thin{stroke-width:1.2}
+      .med{stroke-width:2}
+      .thick{stroke-width:3}
+    </style>
+  </defs>
+
+  <g id="background">
+    <rect x="0" y="0" width="1080" height="1920" fill="url(#bgGrad)"/>
+    <ellipse cx="895" cy="140" rx="280" ry="280" fill="url(#glowB)" opacity="0.65"/>
+    <ellipse cx="220" cy="1700" rx="420" ry="360" fill="url(#glowA)" opacity="0.55"/>
+    <ellipse cx="900" cy="1650" rx="280" ry="260" fill="url(#glowB)" opacity="0.28"/>
+    <rect x="690" y="-120" width="250" height="620" fill="url(#beamGrad)" transform="rotate(28 690 -120)" opacity="0.9"/>
+    <rect x="860" y="-90" width="120" height="460" fill="url(#beamGrad)" transform="rotate(28 860 -90)" opacity="0.55"/>
+  </g>
+
+  <g id="geometry">
+    <circle cx="540" cy="230" r="180" class="stroke-a thin"/>
+    <circle cx="540" cy="230" r="235" class="stroke-b thin"/>
+    <circle cx="540" cy="230" r="300" class="stroke-b thin" opacity="0.45"/>
+    <circle cx="-85" cy="1660" r="330" class="stroke-a med" opacity="0.42"/>
+    <circle cx="-85" cy="1660" r="405" class="stroke-b thin"/>
+    <circle cx="1015" cy="160" r="250" class="stroke-b thin"/>
+    <circle cx="1015" cy="160" r="320" class="stroke-a thin"/>
+
+```
+<path d="M730 46 L957 46 L1010 98" class="stroke-a med" opacity="0.55"/>
+<path d="M838 292 L980 160" class="stroke-a thin"/>
+<path d="M768 345 L1008 121" class="stroke-b thin"/>
+<path d="M76 1586 C180 1540, 248 1510, 334 1518 C424 1526, 514 1580, 612 1608" class="stroke-a med" opacity="0.3"/>
+<path d="M76 1620 C170 1588, 280 1572, 392 1602 C470 1622, 568 1680, 674 1720" class="stroke-b thin"/>
+
+<polygon points="922,343 972,365 922,387" fill="#66E8FF" fill-opacity="0.18"/>
+<polygon points="118,508 148,526 118,544" fill="#66E8FF" fill-opacity="0.22"/>
+<polygon points="964,1210 1006,1230 964,1250" fill="#66E8FF" fill-opacity="0.14"/>
+<polygon points="140,1216 170,1234 140,1252" fill="#1C8CFF" fill-opacity="0.16"/>
+
+<path d="M176 88 l34 0 l24 24" class="stroke-a med"/>
+<path d="M220 88 l30 0" class="stroke-a med"/>
+<path d="M255 88 l30 0" class="stroke-a med"/>
+
+<g opacity="0.36">
+  <circle cx="76" cy="98" r="4" fill="#66E8FF"/><circle cx="100" cy="98" r="4" fill="#66E8FF"/><circle cx="124" cy="98" r="4" fill="#66E8FF"/><circle cx="148" cy="98" r="4" fill="#66E8FF"/><circle cx="172" cy="98" r="4" fill="#66E8FF"/>
+  <circle cx="76" cy="122" r="4" fill="#66E8FF"/><circle cx="100" cy="122" r="4" fill="#66E8FF"/><circle cx="124" cy="122" r="4" fill="#66E8FF"/><circle cx="148" cy="122" r="4" fill="#66E8FF"/><circle cx="172" cy="122" r="4" fill="#66E8FF"/>
+  <circle cx="76" cy="146" r="4" fill="#66E8FF"/><circle cx="100" cy="146" r="4" fill="#66E8FF"/><circle cx="124" cy="146" r="4" fill="#66E8FF"/><circle cx="148" cy="146" r="4" fill="#66E8FF"/><circle cx="172" cy="146" r="4" fill="#66E8FF"/>
+  <circle cx="76" cy="170" r="4" fill="#66E8FF"/><circle cx="100" cy="170" r="4" fill="#66E8FF"/><circle cx="124" cy="170" r="4" fill="#66E8FF"/><circle cx="148" cy="170" r="4" fill="#66E8FF"/><circle cx="172" cy="170" r="4" fill="#66E8FF"/>
+</g>
+
+<g opacity="0.22">
+  <circle cx="892" cy="624" r="3" fill="#66E8FF"/><circle cx="908" cy="624" r="3" fill="#66E8FF"/><circle cx="924" cy="624" r="3" fill="#66E8FF"/><circle cx="940" cy="624" r="3" fill="#66E8FF"/><circle cx="956" cy="624" r="3" fill="#66E8FF"/>
+  <circle cx="892" cy="640" r="3" fill="#66E8FF"/><circle cx="908" cy="640" r="3" fill="#66E8FF"/><circle cx="924" cy="640" r="3" fill="#66E8FF"/><circle cx="940" cy="640" r="3" fill="#66E8FF"/><circle cx="956" cy="640" r="3" fill="#66E8FF"/>
+  <circle cx="892" cy="656" r="3" fill="#66E8FF"/><circle cx="908" cy="656" r="3" fill="#66E8FF"/><circle cx="924" cy="656" r="3" fill="#66E8FF"/><circle cx="940" cy="656" r="3" fill="#66E8FF"/><circle cx="956" cy="656" r="3" fill="#66E8FF"/>
+</g>
+
+<g opacity="0.18">
+  <circle cx="934" cy="1720" r="3" fill="#66E8FF"/><circle cx="950" cy="1720" r="3" fill="#66E8FF"/><circle cx="966" cy="1720" r="3" fill="#66E8FF"/><circle cx="982" cy="1720" r="3" fill="#66E8FF"/><circle cx="998" cy="1720" r="3" fill="#66E8FF"/>
+  <circle cx="934" cy="1736" r="3" fill="#66E8FF"/><circle cx="950" cy="1736" r="3" fill="#66E8FF"/><circle cx="966" cy="1736" r="3" fill="#66E8FF"/><circle cx="982" cy="1736" r="3" fill="#66E8FF"/><circle cx="998" cy="1736" r="3" fill="#66E8FF"/>
+  <circle cx="934" cy="1752" r="3" fill="#66E8FF"/><circle cx="950" cy="1752" r="3" fill="#66E8FF"/><circle cx="966" cy="1752" r="3" fill="#66E8FF"/><circle cx="982" cy="1752" r="3" fill="#66E8FF"/><circle cx="998" cy="1752" r="3" fill="#66E8FF"/>
+</g>
+
+<g opacity="0.22">
+  <circle cx="80" cy="610" r="3" fill="#66E8FF"/><circle cx="80" cy="632" r="3" fill="#66E8FF"/><circle cx="80" cy="654" r="3" fill="#66E8FF"/><circle cx="80" cy="676" r="3" fill="#66E8FF"/><circle cx="80" cy="698" r="3" fill="#66E8FF"/><circle cx="80" cy="720" r="3" fill="#66E8FF"/>
+  <circle cx="102" cy="610" r="3" fill="#66E8FF"/><circle cx="102" cy="632" r="3" fill="#66E8FF"/><circle cx="102" cy="654" r="3" fill="#66E8FF"/><circle cx="102" cy="676" r="3" fill="#66E8FF"/><circle cx="102" cy="698" r="3" fill="#66E8FF"/><circle cx="102" cy="720" r="3" fill="#66E8FF"/>
+</g>
+
+<g opacity="0.2">
+  <circle cx="78" cy="980" r="3" fill="#66E8FF"/><circle cx="78" cy="1004" r="3" fill="#66E8FF"/><circle cx="78" cy="1028" r="3" fill="#66E8FF"/><circle cx="78" cy="1052" r="3" fill="#66E8FF"/><circle cx="78" cy="1076" r="3" fill="#66E8FF"/><circle cx="78" cy="1100" r="3" fill="#66E8FF"/>
+  <circle cx="102" cy="980" r="3" fill="#66E8FF"/><circle cx="102" cy="1004" r="3" fill="#66E8FF"/><circle cx="102" cy="1028" r="3" fill="#66E8FF"/><circle cx="102" cy="1052" r="3" fill="#66E8FF"/><circle cx="102" cy="1076" r="3" fill="#66E8FF"/><circle cx="102" cy="1100" r="3" fill="#66E8FF"/>
+</g>
+```
+
+  </g>
+
+  <g id="header">
+    <text x="88" y="122" class="en t-muted" font-size="24" font-weight="700" letter-spacing="3">2026 CAMPUS MUSIC FESTIVAL</text>
+    <line x1="88" y1="138" x2="356" y2="138" stroke="url(#lineGrad)" stroke-width="2"/>
+    <text x="88" y="270" class="cn t-main" font-size="126">声耀此刻</text>
+    <text x="92" y="330" class="en t-sub" font-size="30">MUSIC FESTIVAL PROGRAM</text>
+    <rect x="88" y="356" width="238" height="38" rx="19" fill="#102347" fill-opacity="0.55" stroke="#66E8FF" stroke-opacity="0.28"/>
+    <text x="107" y="381" class="cn t-muted" font-size="18" font-weight="600">音乐节节目单  /  PROGRAM SHEET</text>
+  </g>
+
+  <g id="info">
+    <g transform="translate(88,412)">
+      <rect x="0" y="0" width="220" height="88" rx="22" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.35"/>
+      <path d="M18 20 h46" stroke="#66E8FF" stroke-opacity="0.35"/>
+      <path d="M156 68 h44" stroke="#66E8FF" stroke-opacity="0.35"/>
+      <rect x="18" y="24" width="28" height="24" rx="4" fill="none" stroke="#66E8FF" stroke-width="2"/>
+      <line x1="18" y1="31" x2="46" y2="31" stroke="#66E8FF" stroke-width="2"/>
+      <line x1="24" y1="20" x2="24" y2="28" stroke="#66E8FF" stroke-width="2"/>
+      <line x1="40" y1="20" x2="40" y2="28" stroke="#66E8FF" stroke-width="2"/>
+      <text x="62" y="58" class="en t-body" font-size="30" font-weight="800" letter-spacing="1">05.24</text>
+    </g>
+
+```
+<g transform="translate(336,412)">
+  <rect x="0" y="0" width="220" height="88" rx="22" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.35"/>
+  <path d="M18 20 h46" stroke="#66E8FF" stroke-opacity="0.35"/>
+  <path d="M156 68 h44" stroke="#66E8FF" stroke-opacity="0.35"/>
+  <circle cx="36" cy="40" r="16" fill="none" stroke="#66E8FF" stroke-width="2"/>
+  <line x1="36" y1="40" x2="36" y2="31" stroke="#66E8FF" stroke-width="2"/>
+  <line x1="36" y1="40" x2="44" y2="47" stroke="#66E8FF" stroke-width="2"/>
+  <text x="62" y="58" class="en t-body" font-size="30" font-weight="800" letter-spacing="1">15:00</text>
+</g>
+
+<g transform="translate(584,412)">
+  <rect x="0" y="0" width="408" height="88" rx="22" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.35"/>
+  <path d="M18 20 h46" stroke="#66E8FF" stroke-opacity="0.35"/>
+  <path d="M344 68 h44" stroke="#66E8FF" stroke-opacity="0.35"/>
+  <path d="M36 24c-9 0-16 7-16 16c0 10 9 19 16 25c7-6 16-15 16-25c0-9-7-16-16-16z" fill="none" stroke="#66E8FF" stroke-width="2"/>
+  <circle cx="36" cy="40" r="5" fill="none" stroke="#66E8FF" stroke-width="2"/>
+  <text x="64" y="56" class="cn t-body" font-size="24" font-weight="700">学院路校区体育馆</text>
+</g>
+```
+
+  </g>
+
+  <g id="program-list">
+    <text x="88" y="550" class="en t-muted" font-size="18" font-weight="700" letter-spacing="4">PROGRAM LIST</text>
+    <line x1="158" y1="590" x2="158" y2="1476" stroke="url(#lineGrad)" stroke-width="2"/>
+    <line x1="176" y1="590" x2="176" y2="1476" stroke="#66E8FF" stroke-opacity="0.12" stroke-width="1"/>
+
+```
+<g transform="translate(0,0)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">01</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">开场序曲</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Opening Overture</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+
+<g transform="translate(0,124)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">02</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">青春和弦</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Youth Chords</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+
+<g transform="translate(0,248)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">03</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">星河独唱</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Solo Under Stars</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+
+<g transform="translate(0,372)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">04</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">乐队现场</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Live Band Session</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+
+<g transform="translate(0,496)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">05</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">节奏律动</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Rhythm Pulse</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+
+<g transform="translate(0,620)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">06</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">合唱时刻</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Choir Moment</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+
+<g transform="translate(0,744)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">07</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">声耀此刻</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Shine of Sound</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+
+<g transform="translate(0,868)">
+  <text x="102" y="638" class="en" font-size="42" font-weight="800" fill="#68C8FF">08</text>
+  <circle cx="158" cy="626" r="7" fill="#66E8FF" filter="url(#microGlow)"/>
+  <polygon points="184,620 198,626 184,632" fill="#66E8FF" fill-opacity="0.5"/>
+  <rect x="222" y="572" width="770" height="108" rx="20" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+  <path d="M238 584 h48 M930 666 h44" stroke="#66E8FF" stroke-opacity="0.26"/>
+  <path d="M920 584 h42 M238 666 h54" stroke="#66E8FF" stroke-opacity="0.18"/>
+  <text x="266" y="620" class="cn t-body" font-size="22" font-weight="800">终场谢幕</text>
+  <text x="266" y="652" class="en" font-size="16" font-weight="600" fill="#68C8FF">Finale</text>
+  <text x="686" y="637" class="cn t-body" font-size="16" font-weight="600">表演者：__________</text>
+</g>
+```
+
+  </g>
+
+  <g id="footer">
+    <g transform="translate(88,1542)">
+      <rect x="0" y="0" width="430" height="192" rx="26" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.34"/>
+      <path d="M16 18 h58 M356 174 h58" stroke="#66E8FF" stroke-opacity="0.3"/>
+      <text x="22" y="76" class="en" font-size="82" font-weight="700" fill="#68C8FF" opacity="0.8">“</text>
+      <text x="330" y="168" class="en" font-size="82" font-weight="700" fill="#68C8FF" opacity="0.8">”</text>
+      <text x="36" y="96" class="cn t-body" font-size="24" font-weight="600">以声音点亮夜色，</text>
+      <text x="36" y="138" class="cn t-body" font-size="24" font-weight="600">让此刻成为回响。</text>
+    </g>
+
+```
+<g transform="translate(790,1528)">
+  <rect x="0" y="0" width="214" height="214" rx="24" fill="url(#cardGrad)" stroke="#66E8FF" stroke-opacity="0.45"/>
+  <rect x="18" y="18" width="178" height="178" fill="#EAF6FF"/>
+  <rect x="34" y="34" width="44" height="44" fill="#0A1D3D"/>
+  <rect x="42" y="42" width="28" height="28" fill="#EAF6FF"/>
+  <rect x="118" y="34" width="44" height="44" fill="#0A1D3D"/>
+  <rect x="126" y="42" width="28" height="28" fill="#EAF6FF"/>
+  <rect x="34" y="118" width="44" height="44" fill="#0A1D3D"/>
+  <rect x="42" y="126" width="28" height="28" fill="#EAF6FF"/>
+  <rect x="94" y="94" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="110" y="94" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="94" y="110" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="126" y="94" width="12" height="28" fill="#0A1D3D"/>
+  <rect x="146" y="94" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="94" y="132" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="110" y="148" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="128" y="132" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="144" y="148" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="162" y="132" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="94" y="168" width="20" height="12" fill="#0A1D3D"/>
+  <rect x="126" y="168" width="12" height="12" fill="#0A1D3D"/>
+  <rect x="142" y="168" width="28" height="12" fill="#0A1D3D"/>
+  <path d="M14 24 h24 M176 24 h24 M14 190 h24 M176 190 h24" stroke="#66E8FF" stroke-opacity="0.4"/>
+</g>
+
+<g opacity="0.42" transform="translate(0,0)">
+  <rect x="362" y="1774" width="10" height="40" fill="#1C8CFF"/>
+  <rect x="380" y="1762" width="10" height="52" fill="#1C8CFF"/>
+  <rect x="398" y="1740" width="10" height="74" fill="#66E8FF"/>
+  <rect x="416" y="1716" width="10" height="98" fill="#1C8CFF"/>
+  <rect x="434" y="1738" width="10" height="76" fill="#1C8CFF"/>
+  <rect x="452" y="1682" width="10" height="132" fill="#66E8FF"/>
+  <rect x="470" y="1702" width="10" height="112" fill="#1C8CFF"/>
+  <rect x="488" y="1748" width="10" height="66" fill="#66E8FF"/>
+  <rect x="506" y="1662" width="10" height="152" fill="#66E8FF"/>
+  <rect x="524" y="1686" width="10" height="128" fill="#1C8CFF"/>
+  <rect x="542" y="1722" width="10" height="92" fill="#66E8FF"/>
+  <rect x="560" y="1764" width="10" height="50" fill="#1C8CFF"/>
+  <rect x="578" y="1710" width="10" height="104" fill="#66E8FF"/>
+  <rect x="596" y="1740" width="10" height="74" fill="#1C8CFF"/>
+  <rect x="614" y="1770" width="10" height="44" fill="#1C8CFF"/>
+</g>
+
+<line x1="88" y1="1846" x2="992" y2="1846" stroke="url(#lineGrad)" stroke-width="2"/>
+<circle cx="88" cy="1846" r="3" fill="#66E8FF"/>
+<circle cx="992" cy="1846" r="3" fill="#66E8FF"/>
+
+<text x="88" y="1878" class="en" font-size="18" font-weight="700" fill="#68C8FF" letter-spacing="2">SOUND / STAGE / LIGHT / MOMENT</text>
+<text x="664" y="1878" class="en" font-size="18" font-weight="700" fill="#68C8FF" letter-spacing="1.6">XUEYUAN ROAD CAMPUS GYMNASIUM</text>
+
+<g transform="translate(456,1860)" opacity="0.8">
+  <line x1="-80" y1="0" x2="-52" y2="0" stroke="#66E8FF" stroke-opacity="0.6"/>
+  <rect x="-44" y="-2" width="4" height="4" fill="#66E8FF"/>
+  <rect x="-36" y="-5" width="4" height="10" fill="#66E8FF"/>
+  <rect x="-28" y="-8" width="4" height="16" fill="#66E8FF"/>
+  <rect x="-20" y="-4" width="4" height="8" fill="#66E8FF"/>
+  <rect x="-12" y="-10" width="4" height="20" fill="#66E8FF"/>
+  <rect x="-4" y="-6" width="4" height="12" fill="#66E8FF"/>
+  <rect x="4" y="-12" width="4" height="24" fill="#66E8FF"/>
+  <rect x="12" y="-6" width="4" height="12" fill="#66E8FF"/>
+  <rect x="20" y="-10" width="4" height="20" fill="#66E8FF"/>
+  <rect x="28" y="-4" width="4" height="8" fill="#66E8FF"/>
+  <rect x="36" y="-8" width="4" height="16" fill="#66E8FF"/>
+  <rect x="44" y="-5" width="4" height="10" fill="#66E8FF"/>
+  <rect x="52" y="-2" width="4" height="4" fill="#66E8FF"/>
+  <line x1="60" y1="0" x2="88" y2="0" stroke="#66E8FF" stroke-opacity="0.6"/>
+</g>
+```
+
+  </g>
+</svg>

@@ -5,7 +5,6 @@ Shared by both ORB-SLAM2 and DSO-SLAM systems.
 
 from __future__ import annotations
 
-import time
 import numpy as np
 from dataclasses import dataclass, field
 from typing import Optional
@@ -19,11 +18,15 @@ from typing import Optional
 class KeyFrame:
     id: int
     timestamp: float
-    pose: np.ndarray  # Tcw, 4x4 SE(3)
+    pose: np.ndarray  # Twc, 4x4 SE(3), camera pose in world coordinates
     left_image: Optional[np.ndarray] = None
     right_image: Optional[np.ndarray] = None
+    keypoints: list = field(default_factory=list)
     descriptors: Optional[np.ndarray] = None
+    points_3d: Optional[np.ndarray] = None  # stereo points in the keyframe camera coordinates
+    valid_mask: Optional[np.ndarray] = None
     map_points: list = field(default_factory=list)  # observed MapPoints
+    feature_map_points: dict = field(default_factory=dict)  # feature index -> MapPoint
     bow_vector: Optional[np.ndarray] = None  # bag-of-words vector
     observations: list = field(default_factory=list)  # (map_point, u, v)
     connections: dict = field(default_factory=dict)  # kf_id -> shared_map_point_count
@@ -45,6 +48,7 @@ class MapPoint:
     id: int
     position: np.ndarray  # 3D world coordinates
     observations: list  # [(keyframe_id, u, v), ...]
+    descriptor: Optional[np.ndarray] = None
     valid: bool = True
     found_count: int = 0
     matched_count: int = 0
@@ -122,6 +126,7 @@ def solve_local_ba(
     keyframes: list[KeyFrame],
     map_points: list[MapPoint],
     max_iter: int = 50,
+    camera_matrix: Optional[np.ndarray] = None,
 ) -> bool:
     """
     Local Bundle Adjustment: optimize keyframe poses and map point positions
@@ -144,9 +149,10 @@ def solve_local_ba(
     mp_ids = [mp.id for mp in map_points]
     mp_idx = {mp_id: i for i, mp_id in enumerate(mp_ids)}
 
-    # Camera parameters (placeholder, set from calibration in real impl)
-    fx, fy, cx, cy = 718.856, 718.856, 607.1928, 185.2157
-    K = np.array([[fx, 0, cx], [0, fy, cy], [0, 0, 1]])
+    K = np.asarray(camera_matrix, dtype=np.float64) if camera_matrix is not None else np.array(
+        [[718.856, 0, 607.1928], [0, 718.856, 185.2157], [0, 0, 1]],
+        dtype=np.float64,
+    )
 
     n_kf = len(keyframes)
     n_mp = len(map_points)
@@ -154,11 +160,10 @@ def solve_local_ba(
     # Flatten initial parameters: [p0_xyz(p_mp), q0(p_kf), ...]
     # Map points: 3 params each
     # Keyframe poses: 6 params each (tx, ty, tz, rx, ry, rz -> se3)
-    params = np.zeros((n_mp + n_kf) * 6)
+    params = np.zeros(n_mp * 3 + n_kf * 6)
     for i, mp in enumerate(map_points):
         params[i * 3:(i + 1) * 3] = mp.position
 
-    kf_poses = [kf.pose for kf in keyframes]
     for i, kf in enumerate(keyframes):
         pose = kf.pose
         t = pose[:3, 3]
@@ -188,6 +193,9 @@ def solve_local_ba(
     if not observations:
         return False
 
+    first_pose_base = n_mp * 3
+    first_pose_prior = params[first_pose_base:first_pose_base + 6].copy()
+
     def residuals(params_flat):
         errors = []
         for kf_i, mp_i, u, v in observations:
@@ -211,24 +219,41 @@ def solve_local_ba(
             T = np.eye(4)
             T[:3, :3] = R_mat
             T[:3, 3] = t
-            cam_pos = R_mat @ mp_pos + t
+            Tcw = np.linalg.inv(T)
+            cam_pos = Tcw[:3, :3] @ mp_pos + Tcw[:3, 3]
+            if cam_pos[2] <= 1e-6:
+                errors.append(1e3)
+                errors.append(1e3)
+                continue
             proj = K @ cam_pos
             proj /= proj[2]
             errors.append(proj[0] - u)
             errors.append(proj[1] - v)
+        # Anchor the first keyframe to remove gauge freedom in the local window.
+        errors.extend((params_flat[first_pose_base:first_pose_base + 6] - first_pose_prior) * 1e3)
         return np.array(errors)
 
     from scipy.optimize import least_squares
-    result = least_squares(residuals, params, method="lm", max_nfev=max_iter, ftol=1e-6, xtol=1e-6)
+    result = least_squares(
+        residuals,
+        params,
+        method="trf",
+        loss="huber",
+        f_scale=3.0,
+        max_nfev=max_iter,
+        ftol=1e-6,
+        xtol=1e-6,
+    )
+    optimized = result.x
 
     # Write back optimized values
     for i, mp in enumerate(map_points):
-        mp.position = params[i * 3:(i + 1) * 3]
+        mp.position = optimized[i * 3:(i + 1) * 3]
 
     for i, kf in enumerate(keyframes):
         base = n_mp * 3 + i * 6
-        t = params[base:base + 3]
-        omega = params[base + 3:base + 6]
+        t = optimized[base:base + 3]
+        omega = optimized[base + 3:base + 6]
         angle = np.linalg.norm(omega)
         if angle < 1e-8:
             R_mat = np.eye(3)
@@ -264,7 +289,7 @@ def solve_pose_graph(
     initial_poses: kf_id -> 4x4 pose
     Returns: optimized poses
     """
-    kf_ids = sorted(set([e[0] for e in edges] + [e[1] for e in edges]))
+    kf_ids = sorted(set(initial_poses.keys()) | set([e[0] for e in edges] + [e[1] for e in edges]))
     n = len(kf_ids)
     idx_map = {kid: i for i, kid in enumerate(kf_ids)}
 
@@ -315,9 +340,20 @@ def solve_pose_graph(
             t_err = np.linalg.norm(error_mat[:3, 3])
             errs.append(r_err * 100)
             errs.append(t_err * 10)
+        # Gauge prior: keep the first pose fixed to its initial value.
+        first = 0
+        errs.extend((x[first:first + 6] - x0[first:first + 6]) * 1e3)
         return np.array(errs)
 
     from scipy.optimize import least_squares
+
+    initial_residuals = residuals(x0)
+    if initial_residuals.size < x0.size:
+        # The simplified graph can be highly underconstrained when only one or
+        # two loop edges exist. In that case a global optimization is not
+        # meaningful, and dense trust-region iterations can dominate runtime.
+        return {kid: pose_to_mat(x0[i * 6:i * 6 + 6]) for kid, i in idx_map.items()}
+
     result = least_squares(residuals, x0, method="lm", max_nfev=iterations)
 
     optimized = {}

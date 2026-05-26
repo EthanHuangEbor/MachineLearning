@@ -38,16 +38,30 @@ class KITTIOdometryLoader:
         self.base_dir = Path(base_dir)
         self.sequence = f"{int(sequence):02d}"
         self.sequence_dir = self.base_dir / "sequences" / self.sequence
-        self.poses_path = self.base_dir / "poses" / f"{self.sequence}.txt"
+        self.poses_path = self._resolve_ground_truth_path()
 
+        self.dataset = None
         if pykitti is not None:
-            self.dataset = pykitti.odometry(str(self.base_dir), self.sequence)
-        else:
-            self.dataset = None
+            try:
+                self.dataset = pykitti.odometry(str(self.base_dir), self.sequence)
+            except Exception:
+                # pykitti expects full KITTI calibration files including fields
+                # such as Tr. The manual loader below only needs P0/P1.
+                self.dataset = None
 
         self.calibration = self._load_calibration()
         self.timestamps = self._load_timestamps()
         self.gt_poses = self._load_ground_truth()
+
+    def _resolve_ground_truth_path(self) -> Path:
+        candidates = [
+            self.base_dir / "poses" / f"{self.sequence}.txt",
+            self.base_dir / "sequences" / "poses" / f"{self.sequence}.txt",
+        ]
+        for path in candidates:
+            if path.exists():
+                return path
+        return candidates[0]
 
     def _load_calibration(self) -> CameraCalibration:
         calib_path = self.sequence_dir / "calib.txt"
@@ -61,6 +75,10 @@ class KITTIOdometryLoader:
                     continue
                 key, values = line.split(":", 1)
                 projections[key.strip()] = np.fromstring(values, sep=" ").reshape(3, 4)
+
+        missing = {"P0", "P1"} - projections.keys()
+        if missing:
+            raise KeyError(f"Missing calibration projections in {calib_path}: {sorted(missing)}")
 
         p_left = projections["P0"]
         p_right = projections["P1"]
@@ -105,7 +123,17 @@ class KITTIOdometryLoader:
 
     def __len__(self) -> int:
         left_dir = self.sequence_dir / "image_0"
-        return len(list(left_dir.glob("*.png")))
+        right_dir = self.sequence_dir / "image_1"
+        if not left_dir.exists() or not right_dir.exists():
+            raise FileNotFoundError(f"Missing KITTI stereo image directories in {self.sequence_dir}")
+        left_count = len(list(left_dir.glob("*.png")))
+        right_count = len(list(right_dir.glob("*.png")))
+        if left_count != right_count:
+            raise ValueError(
+                f"Left/right image count mismatch for sequence {self.sequence}: "
+                f"{left_count} vs {right_count}"
+            )
+        return left_count
 
     def read_image_pair(self, index: int) -> StereoFrame:
         left_path = self.sequence_dir / "image_0" / f"{index:06d}.png"
