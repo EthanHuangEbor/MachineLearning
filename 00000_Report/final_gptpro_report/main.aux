@@ -1,0 +1,73 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Title}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background and Significance}{1}{section.2}\protected@file@percent }
+\citation{mur2017orbslam2}
+\citation{rublee2011orb}
+\citation{engel2018dso}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Literature Review}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Feature-Based Visual SLAM}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Direct Sparse Odometry}{2}{subsection.3.2}\protected@file@percent }
+\citation{forster2014svo}
+\citation{lucas1981iterative}
+\citation{fischler1981random}
+\citation{geiger2012kitti}
+\citation{teed2021droidslam}
+\citation{teed2023dpvo}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Semi-Direct Visual Odometry}{3}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}KITTI and Modern Deep SLAM}{3}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Methodological Principles}{3}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Unified Benchmark Framework}{3}{subsection.4.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Shared benchmark workflow for the three Python SLAM/VO baselines.}}{4}{figure.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:workflow}{{1}{4}{Shared benchmark workflow for the three Python SLAM/VO baselines}{figure.caption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}ORB-SLAM2-Inspired Stereo SLAM}{4}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}DSO-Inspired Direct Sparse Stereo SLAM}{4}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}SVO-Style Semi-Direct Stereo Visual Odometry/SLAM}{5}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Evaluation Metrics and Fairness Controls}{5}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimental Results and Analysis}{6}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Experimental Setup}{6}{subsection.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Implemented components and known omissions of the three visual SLAM/VO baselines.}}{6}{table.caption.2}\protected@file@percent }
+\newlabel{tab:components}{{1}{6}{Implemented components and known omissions of the three visual SLAM/VO baselines}{table.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Main 300-Frame Results}{6}{subsection.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Main 300-frame accuracy results on KITTI sequence 00. Configuration: origin alignment, 800 ORB features, 800 DSO points, and 800 SVO points. KITTI mean values are computed over the available 100 m and 200 m segments.}}{7}{table.caption.3}\protected@file@percent }
+\newlabel{tab:main-results}{{2}{7}{Main 300-frame accuracy results on KITTI sequence 00. Configuration: origin alignment, 800 ORB features, 800 DSO points, and 800 SVO points. KITTI mean values are computed over the available 100 m and 200 m segments}{table.caption.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Runtime and robustness summary for the final 300-frame run. Runtime values are local Python measurements and are not hardware-normalized.}}{7}{table.caption.4}\protected@file@percent }
+\newlabel{tab:runtime}{{3}{7}{Runtime and robustness summary for the final 300-frame run. Runtime values are local Python measurements and are not hardware-normalized}{table.caption.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Available KITTI-style segment metrics for the final 300-frame run. Each cell reports translational error in percent and rotational error in deg/m.}}{7}{table.caption.5}\protected@file@percent }
+\newlabel{tab:segments}{{4}{7}{Available KITTI-style segment metrics for the final 300-frame run. Each cell reports translational error in percent and rotational error in deg/m}{table.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Trajectory comparison for the first 300 frames of KITTI sequence 00, with a zoomed crop of the turn section. The full plot is the benchmark-generated trajectory figure; the zoom panel is a crop of the same figure for readability.}}{8}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:traj-zoom}{{2}{8}{Trajectory comparison for the first 300 frames of KITTI sequence 00, with a zoomed crop of the turn section. The full plot is the benchmark-generated trajectory figure; the zoom panel is a crop of the same figure for readability}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Robustness and DSO Diagnostics}{8}{subsection.5.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Robustness and DSO diagnostics summary for the final 300-frame run. DSO residual statistics are computed from \texttt  {dso\_diagnostics\_seq00.json}.}}{8}{table.caption.7}\protected@file@percent }
+\newlabel{tab:diagnostics}{{5}{8}{Robustness and DSO diagnostics summary for the final 300-frame run. DSO residual statistics are computed from \texttt {dso\_diagnostics\_seq00.json}}{table.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Enhanced DSO diagnostics for the final 300-frame optimized run. Red vertical lines mark frames with tracking failure and fallback. The lower-right panel reports the residual-p95 histogram over valid frames.}}{9}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:dso-diagnostics-enhanced}{{3}{9}{Enhanced DSO diagnostics for the final 300-frame optimized run. Red vertical lines mark frames with tracking failure and fallback. The lower-right panel reports the residual-p95 histogram over valid frames}{figure.caption.8}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces DSO residual quality versus valid projected point count. Failure/fallback frames are marked separately to show that DSO failure is a multi-factor event rather than a single residual-threshold phenomenon.}}{10}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:dso-residual-scatter}{{4}{10}{DSO residual quality versus valid projected point count. Failure/fallback frames are marked separately to show that DSO failure is a multi-factor event rather than a single residual-threshold phenomenon}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}DSO Ablation Study}{10}{subsection.5.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces DSO ablation accuracy and failure statistics on KITTI sequence 00, 300 frames, and 800 sparse points. These results diagnose the optimized DSO-style baseline and are not claims about full DSO.}}{10}{table.caption.10}\protected@file@percent }
+\newlabel{tab:dso-ablation}{{6}{10}{DSO ablation accuracy and failure statistics on KITTI sequence 00, 300 frames, and 800 sparse points. These results diagnose the optimized DSO-style baseline and are not claims about full DSO}{table.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Selected DSO ablation backend counters for the 300-frame run.}}{11}{table.caption.11}\protected@file@percent }
+\newlabel{tab:dso-ba-counters}{{7}{11}{Selected DSO ablation backend counters for the 300-frame run}{table.caption.11}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Enhanced DSO ablation plot for the 300-frame, 800-point experiment. The left panel reports ATE RMSE, sorted by ATE; the right panel reports failures and fallbacks.}}{11}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:dso-ablation-enhanced}{{5}{11}{Enhanced DSO ablation plot for the 300-frame, 800-point experiment. The left panel reports ATE RMSE, sorted by ATE; the right panel reports failures and fallbacks}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Analysis and Threats to Validity}{11}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Research Conclusions}{12}{section.6}\protected@file@percent }
+\bibstyle{ieeetr}
+\bibdata{references}
+\bibcite{mur2017orbslam2}{1}
+\bibcite{rublee2011orb}{2}
+\bibcite{engel2018dso}{3}
+\bibcite{forster2014svo}{4}
+\bibcite{lucas1981iterative}{5}
+\bibcite{fischler1981random}{6}
+\bibcite{geiger2012kitti}{7}
+\bibcite{teed2021droidslam}{8}
+\bibcite{teed2023dpvo}{9}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Personnel and Task Division}{13}{section.7}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Personnel and task division.}}{13}{table.caption.13}\protected@file@percent }
+\newlabel{tab:personnel}{{8}{13}{Personnel and task division}{table.caption.13}{}}
+\gdef \@abspage@last{13}

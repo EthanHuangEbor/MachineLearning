@@ -1,0 +1,2 @@
+frames,tracking_failures,fallbacks,fallback_lk_pnp,fallback_constant_velocity,mean_valid_projected_points,median_valid_projected_points,mean_inlier_ratio,mean_residual_mean,median_residual_median,mean_residual_p95,median_residual_p95,max_relative_translation_m,max_relative_rotation_deg,failure_frames
+300,12,12,10,2,629.6588628762541,654.0,0.7247531813507381,22.051074868037087,11.621754101060077,74.78527125322023,73.10549141153264,5.33997885113821,4.030117441036628,20 71 75 112 137 144 185 210 247 253 259 276
